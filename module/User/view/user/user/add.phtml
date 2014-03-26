@@ -1,10 +1,10 @@
  <?php
- $title = 'Add new project';
+ $title = 'Add new user';
  $this->headTitle($title);
  ?>
  <h1><?php echo $this->escapeHtml($title); ?></h1>
  <?php
- $form->setAttribute('action', $this->url('project', array('action' => 'add')));
+ $form->setAttribute('action', $this->url('user', array('action' => 'add')));
  $form->prepare();
 
 echo $this->form()->openTag($form);
