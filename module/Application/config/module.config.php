@@ -15,8 +15,8 @@ return array(
                 'options' => array(
                     'route'    => '/',
                     'defaults' => array(
-                    	'controller' => 'Project\Controller\Project',
-                        //'controller' => 'Application\Controller\Index',
+                    	//'controller' => 'Project\Controller\Project',
+                        'controller' => 'Application\Controller\Index',
                         'action'     => 'index',
                     ),
                 ),
