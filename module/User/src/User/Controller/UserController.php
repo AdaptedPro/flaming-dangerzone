@@ -111,7 +111,17 @@ class UserController extends AbstractActionController
     public function signinAction()
     {
     	if (isset($_POST['go'])) {
+    		$data = array(
+    				'email' => isset($_POST['email'])?urldecode($_POST['email']):'',
+    				'password'  => isset($_POST['password'])?urldecode($_POST['password']):'',
+    		);    		
     		
+    		$user = $this->getUserTable()->authenticateUser($data);
+    		if ($user) {
+    			echo 'success';
+    		} else {
+    			echo 'denied';
+    		}
     	}
     }
     

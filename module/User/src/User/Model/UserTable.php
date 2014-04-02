@@ -11,6 +11,12 @@ class UserTable
 	{
 		$this->tableGateway = $tableGateway;
 	}
+	
+	public function authenticateUser($DATA)
+	{
+		$resultSet = $this->tableGateway->select($DATA);
+		return $resultSet;
+	}
 
 	public function fetchAll()
 	{
