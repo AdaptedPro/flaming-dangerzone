@@ -116,13 +116,34 @@ class UserController extends AbstractActionController
     				'password'  => isset($_POST['password'])?urldecode($_POST['password']):'',
     		);    		
     		
-    		$user = $this->getUserTable()->authenticateUser($data);
-    		if ($user) {
-    			echo 'success';
-    		} else {
-    			echo 'denied';
-    		}
+			$user = $this->getUserTable()->authenticateUser($data);
+			if (!empty($user)) {				
+				$_SESSION['auth_user']['id'] = isset($user->id)?$user->id:'';
+				$_SESSION['auth_user']['email'] = isset($user->email)?$user->email:'';
+				if(isset($_SESSION['login_message'])) {
+					unset($_SESSION['login_message']);
+				}
+			} else {
+				$message = 'Invalid email or password!';
+				$_SESSION['login_message'] = $message;
+			}
+			return $this->redirect()->toRoute('home');
+    	} else {
+    		return $this->redirect()->toRoute('home');
     	}
+    }
+
+    public function signoutAction()
+    {
+    	unset($_SESSION['auth_user']);   
+  		$view = new ViewModel();
+   		$view->setTerminal(true);
+   		return $this->redirect()->toRoute('home');	
+    }   
+    
+    public function signupAction()
+    {
+    	
     }
     
     public function getUserTable()

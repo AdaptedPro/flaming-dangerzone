@@ -1,12 +1,11 @@
       <form id="login_form" class="form-signin" role="form" action="user/signin" method="post">
         <h2 class="form-signin-heading">Please sign in</h2>
+        <?php echo (isset($_SESSION['login_message'])?'<p class="red">'.$_SESSION['login_message'].'</p>':''); ?>
+        <?php if( isset($_SESSION['login_message']) ) unset($_SESSION['login_message']); ?>
         <input type="email" name="email" class="form-control" placeholder="Email address" required autofocus>
         <input type="password" name="password" class="form-control" placeholder="Password" required>
         <label class="checkbox">
           <input type="checkbox" value="remember-me"> Remember me
         </label>
         <button class="btn btn-lg btn-primary btn-block" name="go" type="submit">Sign in</button>
-      </form>
-
-      <form id="">
       </form>

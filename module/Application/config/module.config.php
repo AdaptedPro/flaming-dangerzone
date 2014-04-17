@@ -7,6 +7,7 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
+$start_controller = isset($_SESSION['auth_user'])?'Dashboard\Controller\Dashboard':'Application\Controller\Index';
 return array(
     'router' => array(
         'routes' => array(
@@ -15,8 +16,7 @@ return array(
                 'options' => array(
                     'route'    => '/',
                     'defaults' => array(
-                    	//'controller' => 'Project\Controller\Project',
-                        'controller' => 'Application\Controller\Index',
+                        'controller' => $start_controller,
                         'action'     => 'index',
                     ),
                 ),
