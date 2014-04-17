@@ -37,13 +37,16 @@ class Module
     						$tableGateway = $sm->get('RoverTableGateway');
     						$table = new RoverTable($tableGateway);
     						return $table;
-    					},
+    					}
+    					/*
+    					 ,
     					'RoverTableGateway' => function ($sm) {
     						$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
     						$resultSetPrototype = new ResultSet();
     						$resultSetPrototype->setArrayObjectPrototype(new Rover());
     						return new TableGateway('rover', $dbAdapter, null, $resultSetPrototype);
     					},
+    					*/
     			),
     	);
     }    
