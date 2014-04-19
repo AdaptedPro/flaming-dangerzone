@@ -3,6 +3,7 @@ namespace User\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\View\Model\JsonModel;
 use User\Model\User;
 use User\Form\UserForm;
 
@@ -131,6 +132,18 @@ class UserController extends AbstractActionController
     	} else {
     		return $this->redirect()->toRoute('home');
     	}
+    }
+    
+    public function facebookAction()
+    {
+        var_dump($_POST);
+    	
+    	$result = new JsonModel(array(
+	    	'some_parameter' => 'some value',
+            'success'=>true,
+        ));
+
+        return $result;
     }
 
     public function signoutAction()
