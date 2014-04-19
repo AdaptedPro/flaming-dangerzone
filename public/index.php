@@ -5,6 +5,15 @@
  * This makes our life easier when dealing with paths. Everything is relative
  * to the application root now.
 */
+
+session_save_path(realpath("/../tmp/session/"));
+ini_set('session.gc_probability', 1);
+session_start();
+
+// Define path to application directory
+defined('APPLICATION_PATH')
+|| define('APPLICATION_PATH', realpath(dirname(__FILE__) . '/../application'));
+
 if ($_SERVER['APPLICATION_ENV'] == 'development') {
 	error_reporting(E_ALL);
 	ini_set("display_errors", 1);

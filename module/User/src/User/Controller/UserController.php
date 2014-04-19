@@ -108,39 +108,28 @@ class UserController extends AbstractActionController
     	);    	
     }
     
-    public function signinAction()
+   public function signinAction()
     {
-    	$form       = new \User\Form\UserForm();
-    	$request    = $this->getRequest();
-    	$response   = $this->getResponse();    	
-    	
-    	if ($request->isPost()) {
-    		$hello = 1;
-    		$form->setData($request->getPost());
-    		if ($form->isValid()){
-    			$hello = 4020;
-    			
-    		} else {
-			    $messages = $form->getMessages();
+    	if (isset($_POST['go'])) {
+    		$data = array(
+    				'email' => isset($_POST['email'])?urldecode($_POST['email']):'',
+    				'password'  => isset($_POST['password'])?urldecode($_POST['password']):'',
+    		);    		
+			$user = $this->getUserTable()->authenticateUser($data);
+			if (!empty($user)) {				
+				$_SESSION['auth_user']['id'] = isset($user->id)?$user->id:'';
+				$_SESSION['auth_user']['email'] = isset($user->email)?$user->email:'';
+				if(isset($_SESSION['login_message'])) {
+					unset($_SESSION['login_message']);
+				}
+			} else {
+				$message = 'Invalid email or password!';
+				$_SESSION['login_message'] = $message;
 			}
-    	}
-	
-    	$arr= array();
-    	$arr['user_email']='adam.james@adaptedpro.net';
-    	$arr['user_password']='password';
-    	$user = $this->getUserTable()->getAuthUser($arr);  	
-    	
-var_dump($user);
-    	/*
-    	$messages = array();
-    	if (!empty($messages)){
-    		$response->setContent(\Zend\Json\Json::encode($messages));
+			return $this->redirect()->toRoute('home');
     	} else {
-    		$response->setContent(\Zend\Json\Json::encode(array('success'=>1,'hello'=>'Test')));
+    		return $this->redirect()->toRoute('home');
     	}
-    	*/
-    	return $response;    	
-    	
     }
     
     public function signupAction()
@@ -187,6 +176,27 @@ var_dump($user);
     		echo "Mailer Error: " . $mail->ErrorInfo;
     	} else {
     		echo "Message sent!";
+
+    	if (isset($_POST['go'])) {
+    		$data = array(
+    				'email' => isset($_POST['email'])?urldecode($_POST['email']):'',
+    				'password'  => isset($_POST['password'])?urldecode($_POST['password']):'',
+    		);    		
+    		
+			$user = $this->getUserTable()->authenticateUser($data);
+			if (!empty($user)) {				
+				$_SESSION['auth_user']['id'] = isset($user->id)?$user->id:'';
+				$_SESSION['auth_user']['email'] = isset($user->email)?$user->email:'';
+				if(isset($_SESSION['login_message'])) {
+					unset($_SESSION['login_message']);
+				}
+			} else {
+				$message = 'Invalid email or password!';
+				$_SESSION['login_message'] = $message;
+			}
+			return $this->redirect()->toRoute('home');
+    	} else {
+    		return $this->redirect()->toRoute('home');
     	}
 
     	*/
@@ -195,6 +205,14 @@ var_dump($user);
     			'var_x' => 'test',
     	));    	
     }
+
+    public function signoutAction()
+    {
+    	unset($_SESSION['auth_user']);   
+  		$view = new ViewModel();
+   		$view->setTerminal(true);
+   		return $this->redirect()->toRoute('home');	
+    }   
     
     public function getUserTable()
     {

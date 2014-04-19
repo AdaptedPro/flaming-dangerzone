@@ -7,13 +7,22 @@ use Zend\Db\TableGateway\TableGateway;
 class UserTable
 {
 	protected $tableGateway;
+
 	protected $adapter;
+
+	protected $email;
+	protected $password;
+	protected $firstname;
+	protected $middlename;
+	protected $lastname;
+	protected $username;
+	
 
 	public function __construct(TableGateway $tableGateway)
 	{
 		$this->tableGateway = $tableGateway;
 	}
-
+	
 	public function fetchAll()
 	{
 		$resultSet = $this->tableGateway->select();
@@ -51,9 +60,14 @@ class UserTable
 
 	public function saveUser(User $user)
 	{
+		
+		$salt = sha1($user->email);
+		$password = sha1($user->password);
+		$hash_password = sha1("Using ".$salt." on ".$password);		
+		
 		$data = array(
 				'email' => $user->email,
-				'password'  => $user->password,
+				'password'  => $hash_password,
 		);
 
 		$id = (int) $user->id;
@@ -67,17 +81,53 @@ class UserTable
 			}
 		}
 	}
+	
+	public function authenticateUser($DATA)
+	{
+		$email = $DATA['email'];
+		$salt = sha1($DATA['email']);
+		$password = sha1($DATA['password']);
+		$hash_password = sha1("Using ".$salt." on ".$password);
+		$rowset = $this->tableGateway->select(
+				array(
+					'email' => $DATA['email'],
+					'password' => $hash_password
+				)
+		);
+		$row = $rowset->current();
+// 		if (!$row) {
+// 			throw new \Exception("Could not find row with email {$email} and password {$hash_password}");
+// 		}
+		return $row;		
+	}
+	
+	private function password_match()
+	{
+		
+	}
+
+	private function create_password_salt($email)
+	{
+		$date = date('Y-m-d');
+		$output = "";
+		$output .= "Using {$email} with {$date} to make salt";
+		return $output;
+	}	
+	
+	private function hash_with_salt($password='null',$salt='')
+	{
+		$output = "";
+		return $output;	
+	}	
+	
+	private function create_hashed_password($password)
+	{
+		$output = "";
+		return $output;		
+	}
 
 	public function deleteUser($id)
 	{
 		$this->tableGateway->delete(array('id' => (int) $id));
-	}
-	
-	public function authenticateUser($DATA)
-	{
-		$data = array(
-				'email' => isset($DATA['user_email'])?$DATA['user_email']:'',
-				'password'  => isset($DATA['user_password'])?$DATA['user_password']:'',
-		);
 	}
 }
