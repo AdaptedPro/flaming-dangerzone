@@ -1,11 +1,15 @@
 <?php
 namespace User\Model;
 
+use Zend\Db\Adapter\Adapter;
 use Zend\Db\TableGateway\TableGateway;
 
 class UserTable
 {
 	protected $tableGateway;
+
+	protected $adapter;
+
 	protected $email;
 	protected $password;
 	protected $firstname;
@@ -13,6 +17,7 @@ class UserTable
 	protected $lastname;
 	protected $username;
 	
+
 	public function __construct(TableGateway $tableGateway)
 	{
 		$this->tableGateway = $tableGateway;
@@ -22,6 +27,24 @@ class UserTable
 	{
 		$resultSet = $this->tableGateway->select();
 		return $resultSet;
+	}
+	
+	public function getAuthUser($DATA)
+	{
+		//$adapter = new Zend\Db\Adapter\Adapter($configArray);
+		$adapter = new Adapter(array(
+				'driver' => 'Pdo_Mysql',
+				'database' => 'ajdata',
+				'username' => 'root',
+				'password' => 'root'
+		));
+		
+//
+		$sql = "SELECT * FROM `user`";
+		//$statement = $adapter->createStatement($sql, $optionalParameters);
+		$statement = $adapter->createStatement($sql);
+		$result = $statement->execute();
+		return $result;
 	}
 
 	public function getUser($id)
@@ -44,7 +67,7 @@ class UserTable
 		
 		$data = array(
 				'email' => $user->email,
-				'password'  => $hash_password,
+				'hashed_password'  => $hash_password,
 		);
 
 		$id = (int) $user->id;
@@ -68,7 +91,7 @@ class UserTable
 		$rowset = $this->tableGateway->select(
 				array(
 					'email' => $DATA['email'],
-					'password' => $hash_password
+					'hashed_password' => $hash_password
 				)
 		);
 		$row = $rowset->current();

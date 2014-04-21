@@ -2,22 +2,22 @@
 return array(
     'controllers' => array(
         'invokables' => array(
-            'User\Controller\User' => 'User\Controller\UserController',
+            'Automate\Controller\Automate' => 'Automate\Controller\AutomateController',
         ),
     ),
 	
 	'router' => array(
 			'routes' => array(
-					'user' => array(
+					'automate' => array(
 							'type'    => 'segment',
 							'options' => array(
-									'route' => '/user[/:action][/:id]',
+									'route' => '/automate[/:action][/:id]',
 									'constraints' => array(
 											'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
 											'id'     => '[0-9]+',
 									),
 									'defaults' => array(
-											'controller' => 'User\Controller\User',
+											'controller' => 'Automate\Controller\Automate',
 											'action'     => 'index',
 									),
 							),
@@ -27,10 +27,7 @@ return array(
 		
     'view_manager' => array(
         'template_path_stack' => array(
-            'user' => __DIR__ . '/../view',
+            'automate' => __DIR__ . '/../view',
         ),
-    	'strategies' => array(
- 			'ViewJsonStrategy',
-   		),    		
     ),
 );

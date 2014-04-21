@@ -1,0 +1,15 @@
+ <?php
+ $title = 'Sign Up!';
+ $this->headTitle($title);
+ ?>
+ <h1><?php echo $this->escapeHtml($title); ?></h1>
+ 
+<div style="width: 20%;">
+<?php
+$form->setAttribute('action', $this->url('user', array('action' => 'signup')));
+$form->prepare();
+echo $this->form()->openTag($form);
+echo $this->formCollection($form);
+echo $this->form()->closeTag();
+?> 
+</div>
