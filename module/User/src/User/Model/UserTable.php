@@ -46,6 +46,26 @@ class UserTable
 		$result = $statement->execute();
 		return $result;
 	}
+	
+	public function makeUserFromTempUser($DATA)
+	{
+		$adapter = new Adapter(array(
+				'driver' => 'Pdo_Mysql',
+				'database' => 'ajdata',
+				'username' => 'root',
+				'password' => 'root'
+		));	
+
+		$sql = "INSERT INTO user( email, hashed_password, username, first_name, last_name, locale, link )
+				SELECT email, hashed_password, username, first_name, last_name, locale, link
+				FROM tempuser
+				WHERE email = :email
+				AND id =:id";
+		
+		$statement = $adapter->createStatement($sql, $DATA);
+		$result = $statement->execute();
+		return $result;		
+	}
 
 	public function getUser($id)
 	{
@@ -66,8 +86,18 @@ class UserTable
 		$hash_password = sha1("Using ".$salt." on ".$password);		
 		
 		$data = array(
+				'facebook_id' => $user->facebook_id,
 				'email' => $user->email,
+				'first_name' => $user->first_name,
+				'last_name' => $user->last_name,
+				'username' => $user->username,
 				'hashed_password'  => $hash_password,
+				'password_salt' => $salt,
+				'link' => $user->link,
+				'locale' => $user->locale,
+				'gender' => $user->gender,
+				'created_on' => $user->created_on,
+				'updated_on' => $user->updated_on				
 		);
 
 		$id = (int) $user->id;
@@ -95,15 +125,10 @@ class UserTable
 				)
 		);
 		$row = $rowset->current();
-// 		if (!$row) {
-// 			throw new \Exception("Could not find row with email {$email} and password {$hash_password}");
-// 		}
+		if (!$row) {
+			throw new \Exception("Could not find row with email {$email} and password {$hash_password}");
+		}
 		return $row;		
-	}
-	
-	private function password_match()
-	{
-		
 	}
 
 	private function create_password_salt($email)
@@ -119,12 +144,6 @@ class UserTable
 		$output = "";
 		return $output;	
 	}	
-	
-	private function create_hashed_password($password)
-	{
-		$output = "";
-		return $output;		
-	}
 
 	public function deleteUser($id)
 	{

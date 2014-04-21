@@ -54,7 +54,7 @@ class Module
     					'TempUserTableGateway' => function ($sm) {
     						$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
     						$resultSetPrototype = new ResultSet();
-    						$resultSetPrototype->setArrayObjectPrototype(new User());
+    						$resultSetPrototype->setArrayObjectPrototype(new TempUser());
     						return new TableGateway('tempuser', $dbAdapter, null, $resultSetPrototype);
     					},    					
     			),

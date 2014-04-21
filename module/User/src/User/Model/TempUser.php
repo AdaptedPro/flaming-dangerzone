@@ -16,7 +16,7 @@ class TempUser
 	public $locale;
 	public $link;
 	public $username;
-	public $password;	
+	public $password;
 	public $created_on;
 	public $updated_on;	
 	protected $inputFilter;
@@ -31,7 +31,7 @@ class TempUser
 		$this->locale = (!empty($data['locale'])) ? $data['locale'] : null;	
 		$this->link = (!empty($data['link'])) ? $data['link'] : null;
 		$this->username = (!empty($data['username'])) ? $data['username'] : null;
-		$this->password = (!empty($data['password'])) ? $data['password'] : null;
+		$this->password = (!empty($data['password'])) ? $data['password'] : null;		
 		$this->created_on = (!empty($data['created_on'])) ? date("Y-m-d H:i:s", strtotime($data['created_on'])) : null;	
 		$this->updated_on = (!empty($data['updated_on'])) ? $data['updated_on'] : null;
 	}

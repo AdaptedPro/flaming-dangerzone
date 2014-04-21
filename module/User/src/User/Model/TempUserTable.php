@@ -18,6 +18,22 @@ class TempUserTable
 		return $resultSet;
 	}
 	
+	public function verifyTempUser($DATA)
+	{
+		$rowset = $this->tableGateway->select(
+				array(
+						'id' => $DATA['id'],
+						'email' => $DATA['email']
+				)
+		);
+
+		$row = $rowset->current();
+		if (!$row) {
+			throw new \Exception("Could not find row $id");
+		}
+		return $row;
+	}
+		
 	public function getTempUser($id)
 	{
 		$id  = (int) $id;
@@ -52,6 +68,8 @@ class TempUserTable
 		$id = (int) $temp_user->id;
 		if ($id == 0) {
 			$this->tableGateway->insert($data);
+			$return_id = $this->tableGateway->lastInsertValue;
+			return $return_id;
 		} else {
 			if ($this->getTempUser($id)) {
 				$this->tableGateway->update($data, array('id' => $id));

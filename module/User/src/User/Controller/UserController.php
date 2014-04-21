@@ -18,6 +18,11 @@ class UserController extends AbstractActionController
 	protected $tempUserTable;
 	protected $facebookUserTable;
 	
+	private $user_id;
+	private $user_email;
+	private $first_name;
+	private $last_name;
+	
     public function indexAction()
     {
          return new ViewModel(array(
@@ -117,7 +122,7 @@ class UserController extends AbstractActionController
     }
     
    public function signinAction()
-    {
+   {
     	if (isset($_POST['go'])) {
     		$data = array(
     				'email' => isset($_POST['email'])?urldecode($_POST['email']):'',
@@ -148,98 +153,108 @@ class UserController extends AbstractActionController
     	if ($request->isPost()) {
     		$temp_user = new TempUser();
     		$sign_up_form->setInputFilter($temp_user->getInputFilter());
-    		$sign_up_form->setData($request->getPost());
-    		 
+    		$sign_up_form->setData($request->getPost());    		 
     		if ($sign_up_form->isValid()) {
+    			$this->user_email = isset($_POST['email'])?$_POST['email']:'';
+    			$this->first_name = isset($_POST['first_name'])?$_POST['first_name']:'';
+    			$this->last_name = isset($_POST['last_name'])?$_POST['last_name']:'';
     			$temp_user->exchangeArray($sign_up_form->getData());
-    			$this->getTempUserTable()->saveTempUser($temp_user);
-//     			if ($this->send_signup_email()) {
-//     				return $this->redirect()->toRoute('user', array(
-//     						'action' => 'signupcomplete'
-//     				));    				
-//     			} else {
-//    					var_dump('FAIL'); 				
-//     			}
-
-    			
-    			$mail             = new PHPMailer(); // defaults to using php "mail()"
-    			$mail->IsSendmail(); // telling the class to use SendMail transport
-    			 
-    			$body             = 'Hello World';//file_get_contents('Hello World');
-    			#$body             = preg_replace("",'',$body);
-    			 
-    			$mail->SetFrom('noreply@adaptedpro.net', 'First Last');
-    			 
-    	#$mail->AddReplyTo("name@yourdomain.com","First Last");
-    			 
-    			$address = "adamjames_pro@yahoo.com";
-    			$mail->AddAddress($address, "John Doe");
-    			 
-    			$mail->Subject    = "PHPMailer Test Subject via Sendmail, basic";
-    	$mail->AltBody    = "To view the message, please use an HTML compatible email viewer!"; // optional, comment out and test
-    	$mail->MsgHTML($body);
-    			 
-    			#$mail->AddAttachment("images/phpmailer.gif");      // attachment
-    			#$mail->AddAttachment("images/phpmailer_mini.gif"); // attachment
-    			 
-    			if(!$mail->Send()) {
-    				echo "Mailer Error: " . $mail->ErrorInfo;
+    			$this->user_id = $this->getTempUserTable()->saveTempUser($temp_user);
+    			if ($this->send_signup_email()) {
+    				return $this->redirect()->toRoute('user', array(
+    						'action' => 'signupcomplete'
+    				));    				
     			} else {
-    				echo "Message sent!";
-    			}    			
-    			
+   					var_dump('FAIL'); 				
+    			}       			
     		}
-    	}
-    	
+    	}   	
     	return array('form' => $sign_up_form);    	  	
     }
     
     private function send_signup_email()
     {
-    	$mail             = new PHPMailer(); // defaults to using php "mail()"
-    	$mail->IsSendmail(); // telling the class to use SendMail transport
-    	
-    	$body             = 'Hello World';//file_get_contents('Hello World');
+    	$mail             = new PHPMailer();
+    	$mail->IsSendmail();
+     	$mail->IsSMTP();
+     	$mail->SMTPDebug = 2;
+     	$mail->Debugoutput = 'html';
+     	$mail->Host = 'mail.adaptedpro.net';
+     	$mail->Port = 587;
+     	$mail->SMTPAuth = true;
+     	$mail->Username = "noreply@adaptedpro.net";
+     	$mail->Password = "H5qdd*dD68";
+     	
+     	$site = 'http://'.$_SERVER['SERVER_NAME'].'/user/verify';
+     	$e = urlencode($this->user_email);
+     	$body = "
+<html>
+	<body>
+     	<h1>Almost Done!</h1>
+     	<p>To activate your account please click the link below:<br><a href='{$site}/{$this->user_id}?e={$e}'>Active</a></p>
+	</body>
+</html>";
+     	
+    	#$body             = 'Hello World';//file_get_contents('Hello World');
     	#$body             = preg_replace("",'',$body);
+    			 
+    	$mail->SetFrom('noreply@adaptedpro.net', '');
+    	$address = $this->user_email;
     	
-    	#$mail->AddReplyTo("name@yourdomain.com","First Last");
-    	
-    	$mail->SetFrom('noreply@adaptedpro.net', 'First Last');
-    	
-    	#$mail->AddReplyTo("name@yourdomain.com","First Last");
-    	
-    	$address = "adamjames_pro@yahoo.com";
-    	$mail->AddAddress($address, "John Doe");
-    	
-    	$mail->Subject    = "PHPMailer Test Subject via Sendmail, basic";
+    	$mail->AddAddress($address, $this->first_name." ".$this->last_name);
+    	$mail->Subject    = "Activate your account";
     	$mail->AltBody    = "To view the message, please use an HTML compatible email viewer!"; // optional, comment out and test
     	$mail->MsgHTML($body);
-    	
-    	#$mail->AddAttachment("images/phpmailer.gif");      // attachment
-    	#$mail->AddAttachment("images/phpmailer_mini.gif"); // attachment
-    	
+    			 
     	if(!$mail->Send()) {
     		//echo "Mailer Error: " . $mail->ErrorInfo;
     		return false;
     	} else {
     		//echo "Message sent!";
     		return true;
-    	}   	
+   		}  	
     }
     
     public function signupcompleteAction()
     {
-    	
+    	$request = $this->getRequest();
+    	if ($request->isGet()) {
+
+    	}
+    }
+    
+    public function verifyAction()
+    {
+    	$route_params = $this->params()->fromRoute();
+    	$route_params['id'];
+    	$email = isset($_GET['e'])?urldecode($_GET['e']):'';
+    	$id = isset($route_params['id'])?$route_params['id']:'';
+		if ($email != '' && $id != '') {
+			$data = array(
+					'id' => $id,
+					'email'  => $email,
+			);			
+			$tempuser = $this->getTempUserTable()->verifyTempUser($data);
+			if ($tempuser) {
+				try {
+					$this->getUserTable()->makeUserFromTempUser($data);
+					$message = 'You may now log in <a href="/">here</a>.';
+				} catch ( \Exception $e) {
+					$message = $message = 'Unable to activate your account, please try again later. <br />'.$e;
+				}
+			} 
+			return new ViewModel(array(
+					'message' => $message,
+			));					
+		}		
     }
     
     public function facebookAction()
     {
-    	
     	$result = new JsonModel(array(
 	    	'some_parameter' => 'some value',
             'success'=>true,
         ));
-
         return $result;
     }
     

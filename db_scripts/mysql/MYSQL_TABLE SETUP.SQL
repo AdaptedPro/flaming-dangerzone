@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS facebookuser (
 	,`link` varchar(255)
 	,`username` varchar(50)
 	,`created_on` varchar(50)
-	,`updatedon` varchar(50)
+	,`updated_on` varchar(50)
 	,PRIMARY KEY(`id`)
 );
 
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS tempuser (
 	,`hashed_password` varchar(50)
 	,`password_salt` varchar(50)
 	,`created_on` varchar(50)
-	,`updatedon` varchar(50)
+	,`updated_on` varchar(50)
 	,PRIMARY KEY(`id`)
 );
 
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS user (
 	,`hashed_password` varchar(50)
 	,`password_salt` varchar(50)	
 	,`created_on` varchar(50)
-	,`updatedon` varchar(50)
+	,`updated_on` varchar(50)
 	,PRIMARY KEY(`id`)
 );
 
@@ -94,8 +94,6 @@ CREATE TABLE IF NOT EXISTS updates (
 	`id` int(11) NOT NULL AUTO_INCREMENT
 	,`user_id` int(11)
 	,`created_on` varchar(50)
-	,`updatedon` varchar(50)
+	,`updated_on` varchar(50)
 	,PRIMARY KEY(`id`)
 );
-
---LINK UPDATES TO ALL TABLES TO RECORD ANY CHANGES
