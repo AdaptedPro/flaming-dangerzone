@@ -2,8 +2,10 @@
 namespace User;
 
 use Zend\Mvc\ModuleRouteListener;
+use User\Model\TempUser;
 use User\Model\User;
 use User\Model\UserTable;
+use User\Model\TempUserTable;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
 
@@ -38,12 +40,23 @@ class Module
     						$table = new UserTable($tableGateway);
     						return $table;
     					},
+    					'User\Model\TempUserTable' =>  function($sm) {
+    						$tableGateway = $sm->get('TempUserTableGateway');
+    						$table = new TempUserTable($tableGateway);
+    						return $table;
+    					},    					
     					'UserTableGateway' => function ($sm) {
     						$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
     						$resultSetPrototype = new ResultSet();
     						$resultSetPrototype->setArrayObjectPrototype(new User());
     						return new TableGateway('user', $dbAdapter, null, $resultSetPrototype);
     					},
+    					'TempUserTableGateway' => function ($sm) {
+    						$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+    						$resultSetPrototype = new ResultSet();
+    						$resultSetPrototype->setArrayObjectPrototype(new User());
+    						return new TableGateway('tempuser', $dbAdapter, null, $resultSetPrototype);
+    					},    					
     			),
     	);
     }    

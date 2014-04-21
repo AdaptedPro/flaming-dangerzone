@@ -67,7 +67,7 @@ class UserTable
 		
 		$data = array(
 				'email' => $user->email,
-				'password'  => $hash_password,
+				'hashed_password'  => $hash_password,
 		);
 
 		$id = (int) $user->id;
@@ -91,7 +91,7 @@ class UserTable
 		$rowset = $this->tableGateway->select(
 				array(
 					'email' => $DATA['email'],
-					'password' => $hash_password
+					'hashed_password' => $hash_password
 				)
 		);
 		$row = $rowset->current();
