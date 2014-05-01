@@ -25,4 +25,6 @@ return array(
                      => 'Zend\Db\Adapter\AdapterServiceFactory',
          ),
      ),
+	'beats_api_key' => '2qjvsuz97553nfacsmfraenx',
+	'beats_api_secret' => 'aEQr27CH2JfznqSKQ5JR7BJ7',
 );

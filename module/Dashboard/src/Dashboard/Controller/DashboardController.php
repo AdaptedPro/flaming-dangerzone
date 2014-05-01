@@ -9,10 +9,17 @@ use Dashboard\Form\DashboardForm;
 class DashboardController extends AbstractActionController
 {
 	protected $dashboardTable;
+	protected $beatsInfo;
+	protected $beatsKey;
+	protected $beatsSecret;
 	
     public function indexAction()
     {
-        $msg = isset($_SESSION['login_message'])?$_SESSION['login_message']:'';
+    	$beats_info = $this->getBeatsInfo();
+    	$this->beatsKey = $beats_info['api_key'];
+    	$this->beatsSecret = $beats_info['api_scret'];
+    	
+    	$msg = isset($_SESSION['login_message'])?$_SESSION['login_message']:'';
     	return new ViewModel(array(
              'dashboards' => $this->getDashboardTable()->fetchAll(),
          	 'displayname' => isset($_SESSION['auth_user']['email'])?$_SESSION['auth_user']['email']:'Guest',
@@ -109,6 +116,14 @@ class DashboardController extends AbstractActionController
     			'id'    => $id,
     			'dashboard' => $this->getDashboardTable()->getDashboard($id)
     	);    	
+    }
+    
+    private function getBeatsInfo()
+    {
+    	$serviceLocator = $this->getServiceLocator();
+    	$config         = $serviceLocator->get('config');
+    	$this->beatsInfo        = $config['beats'];    	
+    	return $this->beatsInfo;
     }
     
     public function getDashboardTable()

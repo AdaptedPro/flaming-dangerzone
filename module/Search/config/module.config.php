@@ -2,22 +2,22 @@
 return array(
     'controllers' => array(
         'invokables' => array(
-            'Dashboard\Controller\Dashboard' => 'Dashboard\Controller\DashboardController',
+            'Search\Controller\Search' => 'Search\Controller\SearchController',
         ),
     ),
 	
 	'router' => array(
 			'routes' => array(
-					'dashboard' => array(
+					'search' => array(
 							'type'    => 'segment',
 							'options' => array(
-									'route' => '/dashboard[/:action][/:id]',
+									'route' => '/search[/:action][/:id]',
 									'constraints' => array(
 											'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
 											'id'     => '[0-9]+',
 									),
 									'defaults' => array(
-											'controller' => 'Dashboard\Controller\Dashboard',
+											'controller' => 'Search\Controller\Search',
 											'action'     => 'index',
 									),
 							),
@@ -27,7 +27,7 @@ return array(
 		
     'view_manager' => array(
         'template_path_stack' => array(
-            'dashboard' => __DIR__ . '/../view',
+            'search' => __DIR__ . '/../view',
         ),
     ),
 		
