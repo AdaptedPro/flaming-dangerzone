@@ -33,8 +33,8 @@ class SearchController extends AbstractActionController
     	if (isset($_POST)) {
     		$query_string = isset($_POST['beats_q'])?urlencode($_POST['beats_q']):'';
     		$query_type = isset($_POST['beats_type'])?urlencode($_POST['beats_type']):'';
-	    	$url = "https://partner.api.beatsmusic.com/v1/api/search?q={$query_string}&type={$query_type}&client_id={$this->beatsKey}";
-	    	$data_set = file_get_contents($url);
+	    	$json_url = "https://partner.api.beatsmusic.com/v1/api/search?q={$query_string}&type={$query_type}&client_id={$this->beatsKey}";
+	    	$data_set = file_get_contents($json_url);
 	    	return $data_set;    	
     	}
     }
@@ -61,9 +61,9 @@ class SearchController extends AbstractActionController
     
     private function do_search()
     {
-    	$url = "https://partner.api.beatsmusic.com/v1/api/search?q=rain&type=track&client_id={$this->beatsKey}";
-    	$x = file_get_contents($url);
-    	return $x;
+    	$json_url = "https://partner.api.beatsmusic.com/v1/api/search?q=rain&type=track&client_id={$this->beatsKey}";
+    	$json = file_get_contents($json_url);
+    	return $json;
     }
     
 	/*

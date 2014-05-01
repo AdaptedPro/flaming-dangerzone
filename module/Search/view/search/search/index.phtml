@@ -3,13 +3,41 @@
  $this->headTitle($windowTitle);
  ?>
  
+<style>
+.clr { clear:both; line-height:0px; }
+</style>
+ 
 <?php 
-print_r($results);
-var_dump(json_decode($results, true));
-?>
+$result_array = json_decode($results, true);
+$output = "";
+foreach ($result_array['data'] as $result => $val) {
+	$id = isset($val["id"])?$val["id"]:'';
+	$type = isset($val["type"])?$val["type"]:'';
+	$detail = isset($val["detail"])?$val["detail"]:'';
+	$display = isset($val["display"])?$val["display"]:'';
+	
+	$output .= '
+				<div class="row">
+				  <div class="col-sm-6 col-md-4">
+				    <div class="thumbnail">
+				      <!--<img data-src="holder.js/300x200" alt="...">-->
+					  <span class="glyphicon glyphicon-music"></span>
+				      <div class="caption">
+				        <h3>'. $detail . '</h3>
+				        <p>'. $display .'</p>
+				        <p><a href="#" class="btn btn-primary" role="button">Save</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+				';
+}
 
+echo $output;
+?>
+<br class='clr' />
 <script>
 $(function() {
-	alert('dsd');
+	//alert('dsd');
 });
 </script>
