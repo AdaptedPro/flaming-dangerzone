@@ -20,7 +20,8 @@
         <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))                        
         				->prependStylesheet($this->basePath() . $curr_css)
         				->prependStylesheet($this->basePath() . '/css/default.css')
-        				->prependStylesheet($this->basePath() . '/css/bootstrap.min.css') ; ?>        
+        				->prependStylesheet($this->basePath() . '/css/bootstrap.min.css')
+        				->prependStylesheet($this->basePath() . '/css/bootstrap-theme.min.css') ; ?>        
         <?php /* Scripts */?>
         <?php echo $this->headScript()
             ->prependFile($this->basePath() . '/js/bootstrap.min.js')
@@ -57,24 +58,29 @@
       </div>
     </div>
 
+<?php $current_page = ""; ?>
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
-          <ul class="nav nav-sidebar">
-            <li class="active"><a href="/dashboard">Dashboard</a></li>
-            <li><a href="#">Visual Beat</a></li>
-            <li><a href="#">Reports</a></li>
-            <li><a href="#">Analytics</a></li>
-            <li><a href="#">Export</a></li>
-          </ul>
+        <?php echo $this->navigation('navigation')
+		    ->menu()
+		    ->setMinDepth(0)
+		    ->setMaxDepth(0)
+		    ->setUlClass('nav nav-sidebar')
+		    ->render();
+		?>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        	<?php echo $this->navigation('navigation') // <-- Update this!!
+			    ->breadcrumbs()
+			    ->setMinDepth(0)
+			    ->setPartial(array('partial/breadcrumb.phtml', 'Album'));
+			?>
 			<?php echo $this->content; ?>
         </div>
       </div>
     </div>
 	<?php } else { echo "<div class=\"container\">" .$this->content."</div><!-- /container -->";  } ?>
-
         <?php echo $this->inlineScript() ?>
     </body>
 </html>

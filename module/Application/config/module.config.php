@@ -61,6 +61,9 @@ return array(
         'aliases' => array(
             'translator' => 'MvcTranslator',
         ),
+    	'factories' => array(
+    		'navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
+    	),
     ),
     'translator' => array(
         'locale' => 'en_US',
@@ -72,6 +75,41 @@ return array(
             ),
         ),
     ),
+	
+	'navigation' => array(
+			'default' => array(
+					array(
+							'label' => 'Dashboard',
+							'route' => 'dashboard',
+					),
+					array(
+							'label' => 'Search',
+							'route' => 'search',
+					),					
+					array(
+							'label' => 'Project',
+							'route' => 'project',
+							'pages' => array(
+									array(
+											'label' => 'Add',
+											'route' => 'project',
+											'action' => 'add',
+									),
+									array(
+											'label' => 'Edit',
+											'route' => 'project',
+											'action' => 'edit',
+									),
+									array(
+											'label' => 'Delete',
+											'route' => 'project',
+											'action' => 'delete',
+									),
+							),
+					),
+			),
+	),		
+		
     'controllers' => array(
         'invokables' => array(
             'Application\Controller\Index' => 'Application\Controller\IndexController'

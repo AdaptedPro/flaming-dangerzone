@@ -12,13 +12,17 @@ class SearchController extends AbstractActionController
 	protected $beatsInfo;
 	protected $beatsKey;
 	protected $beatsSecret;
+	protected $beatsBaseUrl;
 	
     public function indexAction()
     {
     	$beats_info = $this->getBeatsInfo();
     	$this->beatsKey = $beats_info['api_key'];
     	$this->beatsSecret = $beats_info['api_secret'];
+    	$this->beatsBaseUrl = $beats_info['base_url'];
+    	
     	$result_set = $this->do_search();
+    	
     	$msg = isset($_SESSION['login_message'])?$_SESSION['login_message']:'';
     	return new ViewModel(array(
              //'searchs' => $this->getSearchTable()->fetchAll(),
@@ -33,7 +37,7 @@ class SearchController extends AbstractActionController
     	if (isset($_POST)) {
     		$query_string = isset($_POST['beats_q'])?urlencode($_POST['beats_q']):'';
     		$query_type = isset($_POST['beats_type'])?urlencode($_POST['beats_type']):'';
-	    	$json_url = "https://partner.api.beatsmusic.com/v1/api/search?q={$query_string}&type={$query_type}&client_id={$this->beatsKey}";
+	    	$json_url = "{$this->beatsBaseUrl}/api/search?q={$query_string}&type={$query_type}&client_id={$this->beatsKey}";
 	    	$data_set = file_get_contents($json_url);
 	    	return $data_set;    	
     	}

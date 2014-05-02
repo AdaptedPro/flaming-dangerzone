@@ -7,7 +7,26 @@
 .clr { clear:both; line-height:0px; }
 </style>
  
-<?php 
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Highlights</h3>
+  </div>
+  <div class="panel-body">
+    Panel content
+  </div>
+</div> 
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Recommended</h3>
+  </div>
+  <div class="panel-body">
+    Panel content
+  </div>
+</div> 
+ 
+<?php
+/* 
 $result_array = json_decode($results, true);
 $output = "";
 foreach ($result_array['data'] as $result => $val) {
@@ -34,6 +53,7 @@ foreach ($result_array['data'] as $result => $val) {
 }
 
 echo $output;
+*/
 ?>
 <br class='clr' />
 <script>

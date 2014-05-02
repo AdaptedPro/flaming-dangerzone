@@ -18,7 +18,6 @@ class DashboardController extends AbstractActionController
     	$beats_info = $this->getBeatsInfo();
     	$this->beatsKey = $beats_info['api_key'];
     	$this->beatsSecret = $beats_info['api_secret'];
-    	
     	$msg = isset($_SESSION['login_message'])?$_SESSION['login_message']:'';
     	return new ViewModel(array(
              'dashboards' => $this->getDashboardTable()->fetchAll(),
