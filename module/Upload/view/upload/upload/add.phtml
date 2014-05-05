@@ -1,11 +1,13 @@
  <?php
- $title = 'Add new user';
+ $title = 'Add new upload';
  $this->headTitle($title);
  ?>
  <h1><?php echo $this->escapeHtml($title); ?></h1>
  <?php
- $form->setAttribute('action', $this->url('user', array('action' => 'add')));
+ 
+ $form->setAttribute('action', $this->url('upload', array('action' => 'add')));
  $form->prepare();
+
 echo $this->form()->openTag($form);
 echo $this->formCollection($form);
 echo $this->form()->closeTag();

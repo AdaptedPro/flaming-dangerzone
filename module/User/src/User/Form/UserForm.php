@@ -74,24 +74,15 @@ class UserForm extends Form
 		));		
 		$this->add(array(
 				'name' => 'locale',
-				'type' => 'text',
-				'options' => array(
-						'label' => 'Locale',
-				),
+				'type' => 'Hidden',
 		));	
 		$this->add(array(
 				'name' => 'created_on',
-				'type' => 'text',
-				'options' => array(
-						'label' => 'Created On',
-				),
+				'type' => 'Hidden',
 		));
 		$this->add(array(
 				'name' => 'updated_on',
-				'type' => 'text',
-				'options' => array(
-						'label' => 'Updated On',
-				),
+				'type' => 'Hidden',
 		));			
 		$this->add(array(
 				'name' => 'submit',

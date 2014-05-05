@@ -70,27 +70,15 @@ class TempUserForm extends Form
 		));		
 		$this->add(array(
 				'name' => 'locale',
-				'type' => 'text',
-				'required' => false,
-				'options' => array(
-						'label' => 'Locale',
-				),
+				'type' => 'Hidden',
 		));	
 		$this->add(array(
 				'name' => 'created_on',
-				'type' => 'text',
-				'required' => false,
-				'options' => array(
-						'label' => 'Created On',
-				),
+				'type' => 'Hidden',
 		));
 		$this->add(array(
 				'name' => 'updated_on',
-				'type' => 'text',
-				'required' => false,
-				'options' => array(
-						'label' => 'Updated On',
-				),
+				'type' => 'Hidden',
 		));			
 		$this->add(array(
 				'name' => 'submit',

@@ -26,6 +26,7 @@
         <?php echo $this->headScript()
             ->prependFile($this->basePath() . '/js/bootstrap.min.js')
             ->prependFile($this->basePath() . '/js/jquery.min.js')
+            ->prependFile($this->basePath() . '/js/docs.min.js')
             ->prependFile($this->basePath() . '/js/respond.min.js', 'text/javascript', array('conditional' => 'lt IE 9',))
             ->prependFile($this->basePath() . '/js/html5shiv.js',   'text/javascript', array('conditional' => 'lt IE 9',))
         ; ?>
@@ -71,10 +72,11 @@
 		?>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        	<?php echo $this->navigation('navigation') // <-- Update this!!
+        	<?php echo $this->navigation('navigation')
 			    ->breadcrumbs()
 			    ->setMinDepth(0)
-			    ->setPartial(array('partial/breadcrumb.phtml', 'Album'));
+			    ->setMinDepth(0)
+			    ->setPartial(array('partial/breadcrumb.phtml', 'Dashboard'));
 			?>
 			<?php echo $this->content; ?>
         </div>
