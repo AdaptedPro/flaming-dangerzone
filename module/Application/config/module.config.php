@@ -80,8 +80,10 @@ return array(
 			'default' => array(
 					array(
 							'label' => 'Dashboard',
-							'route' => 'dashboard',
+							'route' => 'home',
 					),
+					
+					/*
 					array(
 							'label' => 'Search',
 							'route' => 'search',
@@ -107,6 +109,7 @@ return array(
 									),
 							),
 					),
+					*/
 			),
 	),		
 		
