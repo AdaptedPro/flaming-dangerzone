@@ -1,0 +1,142 @@
+
+<div id="fb-root"></div>
+<script type="text/javascript">
+	    window.fbAsyncInit = function() {
+	    	  FB.init({
+	    	    appId      : '200668723295785',
+	    	    status     : true, // check login status
+	    	    cookie     : true, // enable cookies to allow the server to access the session
+	    	    xfbml      : true  // parse XFBML
+	    	  });
+	
+	    	  FB.Event.subscribe('auth.authResponseChange', function(response) {
+	    	    if (response.status === 'connected') {
+	    	      getFBUser(1);
+	    	    } else if (response.status === 'not_authorized') {
+	    	    	getFBUser(2);
+	    	    } else {
+	    	    	getFBUser(2);
+	    	    }
+	    	  });
+	    };
+	
+	    	(function(d){
+	    	   var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+	    	   if (d.getElementById(id)) {return;}
+	    	   js = d.createElement('script'); js.id = id; js.async = true;
+	    	   js.src = "//connect.facebook.net/en_US/all.js";
+	    	   ref.parentNode.insertBefore(js, ref);
+	    	}(document));
+
+            function getFBUser(x) 
+            {
+				if (x==1) {
+					FB.api('/me', function(response) {
+						user_logged_in(response);
+					});
+				} else if(x==2) {
+	                FB.login(function(response) {
+	                	if (response.authResponse) {	                		
+		                    FB.api('/me', function(response) {
+		                    	if (response.verified == true) {
+		                    		user_logged_in(response);
+			                    }
+			                });                	
+	                	}		                
+		            }, {scope: 'email,user_likes,create_event,user_birthday'});                
+	            } 
+			}
+
+			function user_logged_in(resp)
+			{
+                $.ajax({
+                    type:'POST',
+                    url:'/user/facebook',
+                    data:resp,
+                    success: function (msg) {
+                    	console.log(msg);
+                    	if (msg['reply']) {
+                    		window.location.replace("/");
+                    	}
+                    }, 
+                    fail: function () {
+                        alert('Fail Alert');                              
+                    }
+                });
+			}	    	  
+</script>
+<!--
+<pre class='xdebug-var-dump' dir='ltr'>
+<b>array</b> <i>(size=15)</i>
+  'id' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'541378821'</font> <i>(length=9)</i>
+  'education' <font color='#888a85'>=&gt;</font> 
+    <b>array</b> <i>(size=1)</i>
+      0 <font color='#888a85'>=&gt;</font> 
+        <b>array</b> <i>(size=2)</i>
+          'school' <font color='#888a85'>=&gt;</font> 
+            <b>array</b> <i>(size=2)</i>
+              ...
+          'type' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'High School'</font> <i>(length=11)</i>
+  'email' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'adamjames_pro@yahoo.com'</font> <i>(length=23)</i>
+  'favorite_athletes' <font color='#888a85'>=&gt;</font> 
+    <b>array</b> <i>(size=1)</i>
+      0 <font color='#888a85'>=&gt;</font> 
+        <b>array</b> <i>(size=2)</i>
+          'id' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'135563086577585'</font> <i>(length=15)</i>
+          'name' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'Chris Paul'</font> <i>(length=10)</i>
+  'favorite_teams' <font color='#888a85'>=&gt;</font> 
+    <b>array</b> <i>(size=6)</i>
+      0 <font color='#888a85'>=&gt;</font> 
+        <b>array</b> <i>(size=2)</i>
+          'id' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'107918035908173'</font> <i>(length=15)</i>
+          'name' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'Dodgers'</font> <i>(length=7)</i>
+      1 <font color='#888a85'>=&gt;</font> 
+        <b>array</b> <i>(size=2)</i>
+          'id' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'144917055340'</font> <i>(length=12)</i>
+          'name' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'LA Lakers'</font> <i>(length=9)</i>
+      2 <font color='#888a85'>=&gt;</font> 
+        <b>array</b> <i>(size=2)</i>
+          'id' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'40605971876'</font> <i>(length=11)</i>
+          'name' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'Los Angeles Clippers'</font> <i>(length=20)</i>
+      3 <font color='#888a85'>=&gt;</font> 
+        <b>array</b> <i>(size=2)</i>
+          'id' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'45084588507'</font> <i>(length=11)</i>
+          'name' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'Los Angeles Dodgers'</font> <i>(length=19)</i>
+      4 <font color='#888a85'>=&gt;</font> 
+        <b>array</b> <i>(size=2)</i>
+          'id' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'117307284966434'</font> <i>(length=15)</i>
+          'name' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'The Oakland Raiders'</font> <i>(length=19)</i>
+      5 <font color='#888a85'>=&gt;</font> 
+        <b>array</b> <i>(size=2)</i>
+          'id' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'159957123994'</font> <i>(length=12)</i>
+          'name' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'Oklahoma City Thunder'</font> <i>(length=21)</i>
+  'first_name' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'Adam'</font> <i>(length=4)</i>
+  'gender' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'male'</font> <i>(length=4)</i>
+  'last_name' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'James'</font> <i>(length=5)</i>
+  'link' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'https://www.facebook.com/adamjames.pro'</font> <i>(length=38)</i>
+  'locale' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'en_US'</font> <i>(length=5)</i>
+  'name' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'Adam James'</font> <i>(length=10)</i>
+  'timezone' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'-7'</font> <i>(length=2)</i>
+  'updated_time' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'2014-02-01T00:18:12+0000'</font> <i>(length=24)</i>
+  'username' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'adamjames.pro'</font> <i>(length=13)</i>
+  'verified' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'true'</font> <i>(length=4)</i>
+</pre>{"some_parameter":"some value","success":true}
+-->
+<form id="login_form" class="form-signin" role="form"
+	action="user/signin" method="post">
+	<h2 class="form-signin-heading">
+		Please sign in
+		<div class="fb-login-button" data-max-rows="1" data-size="large"
+			data-show-faces="false" data-auto-logout-link="true"></div>
+	</h2>
+	<?php echo (isset($_SESSION['login_message'])?'<p class="red">'.$_SESSION['login_message'].'</p>':''); ?>
+	<?php if( isset($_SESSION['login_message']) ) unset($_SESSION['login_message']); ?>
+	<input type="email" name="email" class="form-control"
+		placeholder="Email address" required autofocus> <input type="password"
+		name="password" class="form-control" placeholder="Password" required>
+	<label class="checkbox"> <input type="checkbox" value="remember-me">
+		Remember me
+	</label>
+	<button class="btn btn-lg btn-primary btn-block" name="go"
+		type="submit">Sign in</button>
+</form>
