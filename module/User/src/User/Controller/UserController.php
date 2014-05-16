@@ -190,8 +190,9 @@ class UserController extends AbstractActionController
      	$body = "
 <html>
 	<body>
-     	<h1>Almost Done!</h1>
-     	<p>To activate your account please click the link below:<br><a href='{$site}/{$this->user_id}?e={$e}'>Active</a></p>
+     	<h1>Welcome to AdaptedPro!</h1>
+     	<p>To complete your registration please <a href='{$site}/{$this->user_id}?e={$e}'>click here</a>!</p>
+     	<p>Thanks for joining and have a great day!</p>
 	</body>
 </html>";
      	
