@@ -121,6 +121,8 @@ class UserController extends AbstractActionController
     	);    	
     }
     
+    
+    
    public function signinAction()
    {
     	if (isset($_POST['go'])) {
