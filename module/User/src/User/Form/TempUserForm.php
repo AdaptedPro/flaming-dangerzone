@@ -21,6 +21,9 @@ class TempUserForm extends Form
 				'options' => array(
 						'label' => 'First name.',
 				),
+				'attributes' => array(
+						'class' => 'form-control',
+				),
 		));
 		$this->add(array(
 				'name' => 'last_name',
@@ -29,6 +32,9 @@ class TempUserForm extends Form
 				'options' => array(
 						'label' => 'Last name.',
 				),
+				'attributes' => array(
+						'class' => 'form-control',
+				),				
 		));	
 		$this->add(array(
 				'name' => 'username',
@@ -36,6 +42,9 @@ class TempUserForm extends Form
 				'options' => array(
 						'label' => 'Username.',
 				),
+				'attributes' => array(
+						'class' => 'form-control',
+				),				
 		));					
 		$this->add(array(
 				'name' => 'email',
@@ -44,6 +53,9 @@ class TempUserForm extends Form
 				'options' => array(
 						'label' => 'Email',
 				),
+				'attributes' => array(
+						'class' => 'form-control',
+				),				
 		));
 		$this->add(array(
 				'name' => 'link',
@@ -51,6 +63,9 @@ class TempUserForm extends Form
 				'options' => array(
 						'label' => 'Website',
 				),
+				'attributes' => array(
+						'class' => 'form-control',
+				),				
 		));		
 		$this->add(array(
 				'name' => 'password',
@@ -59,6 +74,9 @@ class TempUserForm extends Form
 				'options' => array(
 						'label' => 'Password',
 				),
+				'attributes' => array(
+						'class' => 'form-control',
+				),				
 		));
 		$this->add(array(
 				'name' => 'gender',
@@ -67,6 +85,9 @@ class TempUserForm extends Form
 				'options' => array(
 						'label' => 'Gender',
 				),
+				'attributes' => array(
+						'class' => 'form-control',
+				),				
 		));		
 		$this->add(array(
 				'name' => 'locale',
@@ -82,10 +103,11 @@ class TempUserForm extends Form
 		));			
 		$this->add(array(
 				'name' => 'submit',
-				'type' => 'Submit',
+				'type' => 'Submit',				
 				'attributes' => array(
 						'value' => 'Save',
 						'id' => 'submitbutton',
+						'class' => 'btn btn-default',
 				),
 		));
 	}

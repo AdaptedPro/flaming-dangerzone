@@ -143,7 +143,7 @@ class UserController extends AbstractActionController
 			}
 			return $this->redirect()->toRoute('home');
     	} else {
-    		return $this->redirect()->toRoute('home');
+    		//return $this->redirect()->toRoute('home');
     	}
     }
     
