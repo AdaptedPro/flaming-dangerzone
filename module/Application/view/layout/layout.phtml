@@ -1,3 +1,8 @@
+<?php 
+	$li_option =  ( isset($_SESSION['auth_user']) && isset($_SESSION['auth_user']['email']) ) ? 
+					"<a href='user/signout'>Sign Out</a>" : 
+					"<button class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\".bs-example-modal-sm\">Sign In</button>";
+?>
 <?php echo $this->doctype(); ?>
 
 <html lang="en">
@@ -9,8 +14,7 @@
 		if (isset($_SERVER['HTTP_USER_AGENT']) &&
 		(strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false))
 			header('X-UA-Compatible: IE=edge,chrome=1');
-		?>        
-        
+		?>             
         <?php echo $this->headMeta()
             ->appendName('viewport', 'width=device-width, initial-scale=1.0')
         ?>
@@ -18,9 +22,10 @@
 	    <?php echo $this->headTitle($this->translate('Utatis'))->setSeparator(' - ')->setAutoEscape(false) ?>
 	    
         <?php /* Styles */?>
-        <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))                        
+        <?php $curr_css = isset($_SESSION['auth_user'])?'css/dashboard.css':'/css/cover.css'; ?>
+        <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico')) 
+        				->prependStylesheet($this->basePath() . $curr_css)
         				->prependStylesheet($this->basePath() . '/css/default.css')
-        				->prependStylesheet($this->basePath() . '/css/cover.css')
         				->prependStylesheet($this->basePath() . '/css/bootstrap.min.css')
         				->prependStylesheet($this->basePath() . '/css/bootstrap-theme.min.css')
         				->prependStylesheet($this->basePath() . '/css/sticky-footer-navbar.css')
@@ -35,8 +40,64 @@
         ; ?>
         
     </head>
-    <body>
+    <body<?php if (!isset($_SESSION['auth_user'])) { echo ' class="splash"';} ?>>		
+<?php if (isset($_SESSION['auth_user'])) { ?>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/"><img src="<?php echo $this->basePath(); ?>/img/logo-utatis.png" alt="Utatis" /></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#"><span class="glyphicon glyphicon-cog"></span></a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">View Profile</a></li>
+                    <li><a href="#">Edit Profile</a></li>
+                    <li><a href="/user/signout">Logout</a></li>
+                  </ul>
+            </li>
+            <li><a href="#"><span class="glyphicon glyphicon-question-sign"></span></a></li>            
+          </ul>
+         <form action="/search" method="post" class="navbar-form navbar-right">
+            <input id="q" type="text" class="form-control" placeholder="Search&hellip;">
+          </form>
+        </div>
+      </div>
+    </div>
     
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+        <?php echo $this->navigation('navigation')
+		    ->menu()
+		    ->setMinDepth(0)
+		    ->setMaxDepth(0)
+		    ->setUlClass('nav nav-sidebar')
+		    ->render();
+		?>
+        </div>
+      </div>      
+      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+      	<?php echo $this->navigation('navigation')
+		    ->breadcrumbs()
+		    ->setMinDepth(0)
+		    ->setMinDepth(0)
+		    ->setPartial(array('partial/breadcrumb.phtml', 'Dashboard'));
+		?>
+		<?php echo $this->content; ?>
+      </div>      
+    </div>
+
+	<?php } else { ?>
+
 		<div id="fb-root"></div>
 		<script type="text/javascript">
 		    window.fbAsyncInit = function() {
@@ -111,27 +172,21 @@
 	                    <div class="inner">
 	                    <h3 class="masthead-brand"><a href="/"><img src="<?php echo $this->basePath(); ?>/img/logo-utatis.png" alt="Utatis" /></a></h3>
 	                    <ul class="nav masthead-nav">
-	                        <!-- <li class="active"><a href="/">Home</a></li>  -->
-	                        <li><a href="/download">Download</a></li>
-	                        <li><a href="/faq">FAQ</a></li>
-	                        <li><a href="/user/signin">Sign In</a></li>
-	                        <!-- 
-	                        <li><button class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Login</button></li>
-	                         -->
+	                        <li><?php echo $li_option; ?></li>
 	                    </ul> 
 	                </div>
 	            </div>
-	            
+	          	                    
 	            <?php echo $this->content; ?>
-	      
-	            <div class="mastfoot">
-	                <div class="inner">
-	                    <p><small>&copy; <?php echo date('Y'); ?> All Rights Reserved.</small></p>
-	                </div>
-	            </div>
+	    
 	        </div>
 	      </div>
-	    </div>                 
+	    </div>
+   <div id="footer">
+      <div class="container">
+        <p class="text-muted"><small>&copy; <?php echo date('Y'); ?> All Rights Reserved.</small></p>
+      </div>
+    </div>               
 
 		<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
 		  <div class="modal-dialog modal-sm">
@@ -173,7 +228,9 @@
 		      		
 		    </div>
 		  </div>
-		</div>
-
+		</div>	 
+	
+	<?php } ?>		
+	<?php echo $this->inlineScript() ?> 
     </body>
 </html>

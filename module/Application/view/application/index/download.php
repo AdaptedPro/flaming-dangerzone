@@ -1,2 +1,0 @@
-Download template
-<?php

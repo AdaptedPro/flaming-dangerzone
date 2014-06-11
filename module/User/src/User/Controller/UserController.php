@@ -22,9 +22,16 @@ class UserController extends AbstractActionController
 	private $user_email;
 	private $first_name;
 	private $last_name;
-	
+		
     public function indexAction()
-    {
+    {    	
+    	if(!isset($_SESSION['auth_user'])) {
+    		$redirect = array(
+    			'r' => urlencode($_SERVER['REQUEST_URI']),
+    		);
+    		$this->redirect()->toRoute('home',$redirect);
+    	}    	
+    	
          return new ViewModel(array(
              'users' => $this->getUserTable()->fetchAll(),
          ));

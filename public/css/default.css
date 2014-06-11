@@ -2,15 +2,17 @@
 
 .red { color:#F00; }
 
-body {
-    /*
+body.splash {
     background: #000000 url('../img/bg-concrete.jpg') no-repeat bottom left;
     background-size: cover;
     background-position:center top;
-    */
 }
 
 .masthead-brand img { }
 .nav a {
 	color:#000;
+}
+
+.navbar-brand img {
+	height:20px;
 }
