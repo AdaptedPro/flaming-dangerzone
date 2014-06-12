@@ -16,3 +16,7 @@ body.splash {
 .navbar-brand img {
 	height:20px;
 }
+
+#login_modal .modal-dialog { max-width:400px; }
+#login_form .modal-body { padding-bottom:5px; }
+#login_form .modal-footer { margin-top:5px; }
