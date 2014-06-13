@@ -126,7 +126,8 @@ class UserTable
 		);
 		$row = $rowset->current();
 		if (!$row) {
-			throw new \Exception("Could not find row with email {$email} and password {$hash_password}");
+			#throw new \Exception("Could not find row with email {$email} and password {$hash_password}");
+			return null;
 		}
 		return $row;		
 	}

@@ -1,7 +1,8 @@
 <?php 
+	$show_modal = isset($_SESSION['login_message'])?true:false;
 	$li_option =  ( isset($_SESSION['auth_user']) && isset($_SESSION['auth_user']['email']) ) ? 
 					"<a href='user/signout'>Sign Out</a>" : 
-					"<button class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\".bs-example-modal-sm\">Sign In</button>";
+					"<button id=\"btn_signin\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\".bs-example-modal-sm\">Sign In</button>";
 ?>
 <?php echo $this->doctype(); ?>
 
@@ -233,5 +234,12 @@
 	
 	<?php } ?>		
 	<?php echo $this->inlineScript() ?> 
+	<?php if ($show_modal == true) {?>
+	<script>
+	$(function() {
+		$("#btn_signin").trigger( "click" );
+	});
+	</script>
+	<?php } ?>
     </body>
 </html>
