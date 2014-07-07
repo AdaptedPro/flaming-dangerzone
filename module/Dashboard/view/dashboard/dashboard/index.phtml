@@ -3,6 +3,29 @@
  $this->headTitle('Welcome');
  ?>
  
+ <script>
+$(function() {
+	setInterval(function(){alive()}, 70000);
+	function alive()
+	{
+        $.getJSON( "rover/alive", function( data ) {
+        console.log('Check');
+            /*
+      	 var items = [];
+        	  $.each( data, function( key, val ) {
+        	    items.push( "<li id='" + key + "'>" + val + "</li>" );
+        	  });
+        	 
+        	  $( "<ul/>", {
+        	    "class": "my-new-list",
+        	    html: items.join( "" )
+        	  }).appendTo( "body" );
+        	  */
+        });
+	}
+});
+ </script>
+ 
  <!--
           <h1 class="page-header">Dashboard</h1>
 

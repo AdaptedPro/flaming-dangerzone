@@ -3,6 +3,7 @@ namespace Rover\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\View\Model\JsonModel;
 use Rover\Model\Rover;
 use Rover\Form\RoverForm;
 
@@ -117,5 +118,41 @@ class RoverController extends AbstractActionController
     		$this->roverTable = $sm->get('Rover\Model\RoverTable');
     	}
     	return $this->roverTable;
-    }    
+    }
+
+    
+    /*
+     * MAKE AJAX FUNCTIONS RETURN AS JSON OR XML!
+     */
+    
+    public function aliveAction()
+    {	
+    	if (isset($_SESSION['auth_user'])) {
+    		
+    		#Get all Updates
+    		//Check relational database
+    		//SELECT MAX(UTATIS.ACTIVITY_LOG.UPDATED_ON) 
+    		//FROM UTATIS.ACTIVITY_LOG
+    		//WHERE PUBLIC = TRUE;
+    		
+    		//https://adaptedpro.iriscouch.com/loby/_design/catalog/_view/items
+    		
+//     		$ch = curl_init("https://adaptedpro.iriscouch.com/loby/_design/catalog/_view/items");
+//     		$fp = fopen("example_homepage.txt", "w");
+    		
+//     		curl_setopt($ch, CURLOPT_FILE, $fp);
+//     		curl_setopt($ch, CURLOPT_HEADER, 0);
+    		
+//     		curl_exec($ch);
+//     		curl_close($ch);
+//     		fclose($fp);   
+
+
+    		$result = new JsonModel(array(
+    				'some_parameter' => 'some value',
+    				'success'=>true,
+    		));
+    		return $result;    		
+    	}
+    } 	   
 }
