@@ -3,13 +3,13 @@
  $this->headTitle('Welcome');
  ?>
  
- <script>
+<script>
 $(function() {
 	setInterval(function(){alive()}, 70000);
 	function alive()
 	{
         $.getJSON( "rover/alive", function( data ) {
-            /*
+/*
       	 var items = [];
         	  $.each( data, function( key, val ) {
         	    items.push( "<li id='" + key + "'>" + val + "</li>" );
@@ -19,11 +19,14 @@ $(function() {
         	    "class": "my-new-list",
         	    html: items.join( "" )
         	  }).appendTo( "body" );
-        	  */
+*/
         });
 	}
 });
- </script>
+</script>
+
+          <div class="row placeholders">
+          </div>
  
  <!--
           <h1 class="page-header">Dashboard</h1>

@@ -124,7 +124,7 @@ class RoverController extends AbstractActionController
     /*
      * MAKE AJAX FUNCTIONS RETURN AS JSON OR XML!
      */
-    
+  
     public function aliveAction()
     {	
     	if (isset($_SESSION['auth_user'])) {
