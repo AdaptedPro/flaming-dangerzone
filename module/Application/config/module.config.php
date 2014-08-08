@@ -81,9 +81,16 @@ return array(
 					array(
 							'label' => 'Dashboard',
 							'route' => 'home',
-					),
-					
+					),				
+					array(
+							'label' => 'Map-it Quick',
+							'route' => 'mapit',
+					),					
 					/*
+					array(
+							'label' => 'Hear we Go',
+							'route' => 'beats',
+					),					
 					array(
 							'label' => 'Search',
 							'route' => 'search',
