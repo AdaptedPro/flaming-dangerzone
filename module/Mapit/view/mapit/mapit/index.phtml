@@ -1,28 +1,47 @@
  <?php
  $mapit_type = 'Map-it, Quick!';
  $this->headTitle($mapit_type);
-
- //$this->headScript()->appendFile( '/css/mapit/default_mapit.css', 'text/css' );
+ $this->headLink()->appendStylesheet('/css/mapit/default_mapit.css');
  $this->headScript()->appendFile( '/js/mapit/default_mapit.js', 'text/javascript' );
  $this->headScript()->appendFile( 'https://maps.googleapis.com/maps/api/js?key='.$api_key, 'text/javascript' );
- ?>
+?>
  
- <?php #BEGIN PUBLIC UI ?>
-
-<style>
-<!--
-#map-canvas { min-height: 400px; }
--->
-</style> 
+<?php #BEGIN PUBLIC UI ?>
  
-<h1><?php echo $this->escapeHtml($mapit_type); ?></h1>
+<h2><?php echo $this->escapeHtml($mapit_type); ?></h2>
  
 <div class="row">
   <div class="col-md-9 col-md-push-3">
     <div id="map-canvas"></div> 
-  </div>
+	<div class="row">
+	  <div class="col-xs-6 col-md-4">
+		<h3>Saved Routes</h3>
+		<ul>
+			<li><a href="#">Route 1</a></li>
+			<li><a href="#">Route 2</a></li>
+			<li><a href="#">Route 3</a></li>
+			<li><a href="#">Route 4</a></li>
+		</ul>  
+	  </div>
+	  <div class="col-xs-6 col-md-4">
+		<h3>Saved Places</h3>
+		<ul>
+			<li><a href="#">My Place 1</a></li>
+			<li><a href="#">My Place 2</a></li>
+			<li><a href="#">My Place 3</a></li>
+		</ul>   
+	  </div>  
+	  <div class="col-xs-6 col-md-4">
+		<h3>Recommended Places</h3>
+		<ul>
+			<li><a href="#">Place 1</a></li>
+			<li><a href="#">Place 2</a></li>
+		</ul>  
+	  </div>
+	</div>
+  </div>  
   <div class="col-md-3 col-md-pull-9"> 
-	<form role="mapit_form">
+	<form id="mapit-form" role="mapit_form">
 	  <div class="form-group">
 	    <label class="sr-only" for="exampleInputEmail2">Start</label>
 	    <input type="text" class="form-control .mapit-search" id="start_location" name="start_location" placeholder="Enter your starting point or click on the map" required>
@@ -32,15 +51,16 @@
 	    <input type="text" class="form-control .mapit-search" id="end_location" name="end_location" placeholder="Enter your destination" required>
 	  </div>
 	  <p>
-	  <button id='btn_route' type="button" class="btn btn-primary">Route</button>
+	  <button id='btn_route' type="submit" class="btn btn-primary">Route</button>
 	  <button id='btn_reset' type="reset" class="btn btn-primary">Clear</button>
+	  <button id='btn_save' type="button" class="btn btn-success">Save Route</button>
 	  </p>
 	</form>
 	
-	<div id="directionsPanel" style="height: 400px; overflow:auto;">
-	<p>Total Distance: <span id="total"></span></p>
-	</div>	  
+	<div id="directionsPanel">
+	<p><span id="total"></span></p>
+	</div>
   </div>
 </div>
 
- <?php #END PUBLIC UI ?>
+<?php #END PUBLIC UI ?>
