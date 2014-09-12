@@ -3,6 +3,7 @@ namespace Mapit\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\View\Model\JsonModel;
 use Mapit\Model\Mapit;
 use Mapit\Form\MapitForm;
 
@@ -24,14 +25,12 @@ class MapitController extends AbstractActionController
     public function addAction()
     {
     	$form = new MapitForm();
-    	$form->get('submit')->setValue('Add');
-    	
+    	$form->get('submit')->setValue('Add');    	
     	$request = $this->getRequest();
     	if ($request->isPost()) {
     		$mapit = new Mapit();
     		$form->setInputFilter($mapit->getInputFilter());
-    		$form->setData($request->getPost());
-    	
+    		$form->setData($request->getPost());    	
     		if ($form->isValid()) {
     			$mapit->exchangeArray($form->getData());
     			$this->getMapitTable()->saveMapit($mapit);
@@ -51,13 +50,10 @@ class MapitController extends AbstractActionController
     				'action' => 'add'
     		));
     	}
-    	
-    	// Get the Mapit with the specified id.  An exception is thrown
-    	// if it cannot be found, in which case go to the index page.
+
     	try {
     		$mapit = $this->getMapitTable()->getMapit($id);
-    	}
-    	catch (\Exception $ex) {
+    	} catch (\Exception $ex) {
     		return $this->redirect()->toRoute('mapit', array(
     				'action' => 'index'
     		));
@@ -65,16 +61,13 @@ class MapitController extends AbstractActionController
     	
     	$form  = new MapitForm();
     	$form->bind($mapit);
-    	$form->get('submit')->setAttribute('value', 'Edit');
-    	
+    	$form->get('submit')->setAttribute('value', 'Edit');    	
     	$request = $this->getRequest();
     	if ($request->isPost()) {
     		$form->setInputFilter($mapit->getInputFilter());
-    		$form->setData($request->getPost());
-    	
+    		$form->setData($request->getPost());    	
     		if ($form->isValid()) {
-    			$this->getMapitTable()->saveMapit($mapit);
-    	
+    			$this->getMapitTable()->saveMapit($mapit);    	
     			// Redirect to list of mapits
     			return $this->redirect()->toRoute('mapit');
     		}
@@ -110,6 +103,15 @@ class MapitController extends AbstractActionController
     			'id'    => $id,
     			'mapit' => $this->getMapitTable()->getMapit($id)
     	);    	
+    }
+    
+    public function ajaxAction()
+    {
+    	$result = new JsonModel(array(
+	    	'some_parameter' => 'some value',
+            'success'=>true,
+        ));
+        return $result;
     }
     
     private function getGoogleMapsInfo()

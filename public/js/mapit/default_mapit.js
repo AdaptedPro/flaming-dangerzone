@@ -3,15 +3,23 @@ $(function() {
     var rendererOptions = { draggable: true }; 
     var directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);;
     var directionsService = new google.maps.DirectionsService();
-    var locale = "";
-    var start = end = '';
+    var locale =  start = end =  good_start = good_end = '';
+    var disable = true;
     
-    $('#btn_route').click(function(e) { calcRoute(); });
     $("#mapit-form").submit(function(e) { 
     	calcRoute();
     	return false; 
-    });    
-
+    });
+    
+    $('#btn_save').click(function(e) {
+    	if ( good_start != '' && good_end != '' ) {
+    		$.post('mapit/ajax', function(e) {
+    			console.log(e);
+    			$('#btn_save').prop("disabled",true);
+    		});
+    	}
+    });
+    
     //Request users location
     function initialize() {
         if (navigator.geolocation) {
@@ -31,7 +39,14 @@ $(function() {
     	directionsService.route(request, function(response, status) {
     		if (status == google.maps.DirectionsStatus.OK) {
     			directionsDisplay.setDirections(response);
+    			good_start = start;
+    			good_end = end;
+    	    	disable = false;
+    		} else {
+    			good_start = good_end = '';
+    			disable = true;
     		}
+    		$('#btn_save').prop("disabled",disable);
     	});
     }
 
@@ -47,12 +62,13 @@ $(function() {
     	$('#total').html(label+'<span class="glyphicon glyphicon-print"></span>&nbsp;&nbsp;<span class="glyphicon glyphicon-envelope"></span></h4><br/>' + total + ' km');
     }
     
+    //
     function showPosition(position) {
     	locale = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
     	mapLocation();
     }  
     
-    //
+    //Load Map
     function mapLocation() {
     	var loc = (locale!="") ? locale : new google.maps.LatLng(41.850033, -87.6500523);
     	var map;

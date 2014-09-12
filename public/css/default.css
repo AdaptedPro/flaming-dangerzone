@@ -3,7 +3,9 @@
 .red { color:#F00; }
 
 body.splash {
+    /*
     background: #000000 url('../img/bg-concrete.jpg') no-repeat bottom left;
+    */
     background-size: cover;
     background-position:center top;
 }
