@@ -1,3 +1,26 @@
+CREATE TABLE IF NOT EXISTS pages
+(
+    `id` int(11) not null auto_increment
+    ,`page_name` varchar(40)
+    ,`path` varchar(500)
+    ,`position` int(11)
+	,`new_window` varchar(50)
+    ,`created_by` varchar(40)
+	,`updated_on` varchar(50)
+    ,`updated_by` varchar(40)
+    ,PRIMARY KEY(`id`)
+);
+
+INSERT INTO pages
+VALUES
+(1,'Shop','#','0','false','ajames','','')
+,(2,'Blog','#','1','false','ajames','','')
+,(3,'Characters','characters','2','false','ajames','','')
+,(4,'Galleries','galleries','3','false','ajames','','')
+,(5,'About','about','4','false','ajames','','')
+,(6,'Fun Stuff','fun','5','false','ajames','','')
+,(7,'Contact','contact','6','false','ajames','','');
+
 CREATE TABLE IF NOT EXISTS dashboard (
 	`id` int(11) NOT NULL AUTO_INCREMENT
 	,`user_id` int(11)
@@ -13,6 +36,18 @@ CREATE TABLE IF NOT EXISTS layout (
 	,`created_on` varchar(50)
 	,`updated_on` varchar(50)
 	,PRIMARY KEY(`id`)
+);
+
+CREATE TABLE IF NOT EXISTS project
+(
+    `id` int(11) not null auto_increment
+    ,`project_name` varchar(40)
+    ,`project_description` varchar(500)
+	,`created_on` varchar(50)
+    ,`created_by` varchar(40)
+	,`updated_on` varchar(50)
+    ,`updated_by` varchar(40)
+    ,PRIMARY KEY(`id`)
 );
 
 CREATE TABLE IF NOT EXISTS layout_authors (

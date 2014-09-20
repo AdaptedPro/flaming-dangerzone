@@ -85,16 +85,7 @@ return array(
 					array(
 							'label' => 'Map-it Quick',
 							'route' => 'mapit',
-					),					
-					/*
-					array(
-							'label' => 'Hear we Go',
-							'route' => 'beats',
-					),					
-					array(
-							'label' => 'Search',
-							'route' => 'search',
-					),					
+					),									
 					array(
 							'label' => 'Project',
 							'route' => 'project',
@@ -116,7 +107,6 @@ return array(
 									),
 							),
 					),
-					*/
 			),
 	),		
 		
