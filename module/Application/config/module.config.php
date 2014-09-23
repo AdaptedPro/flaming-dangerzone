@@ -1,13 +1,8 @@
 <?php
-/**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/ZendSkeletonApplication for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- */
 
-$start_controller = isset($_SESSION['auth_user'])?'Dashboard\Controller\Dashboard':'Application\Controller\Index';
+use Zend\Db\Adapter\Adapter;
+
+$start_controller = 'Application\Controller\Index';
 return array(
     'router' => array(
         'routes' => array(
@@ -79,13 +74,28 @@ return array(
 	'navigation' => array(
 			'default' => array(
 					array(
-							'label' => 'Dashboard',
-							'route' => 'home',
+							'label' => 'Download',
+							'route' => 'download',
+					),					
+					/*
+					array(
+							'label' => 'About',
+							'route' => 'about',
 					),				
 					array(
-							'label' => 'Map-it Quick',
-							'route' => 'mapit',
-					),									
+							'label' => 'Blog',
+							'route' => 'blog',
+					),
+					array(
+							'label' => 'Privacy',
+							'route' => 'privacy',
+					),
+					array(
+							'label' => 'Terms',
+							'route' => 'terms',
+					),
+					*/
+					/*																			
 					array(
 							'label' => 'Project',
 							'route' => 'project',
@@ -107,6 +117,7 @@ return array(
 									),
 							),
 					),
+					*/
 			),
 	),		
 		

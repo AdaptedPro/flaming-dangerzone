@@ -14,11 +14,15 @@ class IndexController extends AbstractActionController
     {   	   	   	
     	$query = 'SELECT * FROM `pages`';
     	return new ViewModel(array(
-    			'message' => 'Hello World',
     			'users'   => $this->get_menu($query),
     	));    	
     }
 
+    public function downloadAction()
+    {
+    	
+    }
+    
     private function get_menu($sql) 
     {
     	$serviceLocator = $this->getServiceLocator();
