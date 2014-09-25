@@ -14,13 +14,8 @@ class IndexController extends AbstractActionController
     {   	   	   	
     	$query = 'SELECT * FROM `pages`';
     	return new ViewModel(array(
-    			'users'   => $this->get_menu($query),
+    			'pages'   => $this->get_menu($query),
     	));    	
-    }
-
-    public function downloadAction()
-    {
-    	
     }
     
     private function get_menu($sql) 

@@ -11,56 +11,83 @@
 <h2><?php echo $this->escapeHtml($mapit_type); ?></h2>
  
 <div class="row">
-  <div class="col-md-9 col-md-push-3">
-    <div id="map-canvas"></div> 
-	<div class="row">
-	  <div class="col-xs-6 col-md-4">
-		<h3>Saved Routes</h3>
-		<ul>
-			<li><a href="#">Route 1</a></li>
-			<li><a href="#">Route 2</a></li>
-			<li><a href="#">Route 3</a></li>
-			<li><a href="#">Route 4</a></li>
-		</ul>  
-	  </div>
-	  <div class="col-xs-6 col-md-4">
-		<h3>Saved Places</h3>
-		<ul>
-			<li><a href="#">My Place 1</a></li>
-			<li><a href="#">My Place 2</a></li>
-			<li><a href="#">My Place 3</a></li>
-		</ul>   
-	  </div>  
-	  <div class="col-xs-6 col-md-4">
-		<h3>Recommended Places</h3>
-		<ul>
-			<li><a href="#">Place 1</a></li>
-			<li><a href="#">Place 2</a></li>
-		</ul>  
-	  </div>
-	</div>
-  </div>  
-  <div class="col-md-3 col-md-pull-9"> 
-	<form id="mapit-form" role="mapit_form">
+  <div class="col-xs-12 col-sm-6 col-md-8">
+    <ul class="nav nav-tabs" role="tablist" id="myTab">
+      <li class="active"><a href="#route" role="tab" data-toggle="tab">Route</a></li>
+      <li><a href="#location" role="tab" data-toggle="tab">Location</a></li>
+    </ul>  
+    
+    <div class="tab-content">
+    <div class="tab-pane active" id="route">
+    <br>
+	<form id="mapit-route-form" class="form-inline" role="mapit_route_form">
 	  <div class="form-group">
-	    <label class="sr-only" for="exampleInputEmail2">Start</label>
-	    <input type="text" class="form-control .mapit-search" id="start_location" name="start_location" placeholder="Enter your starting point or click on the map" required>
+	    <label class="sr-only" for="origin">Start</label>
+	    <input type="text" class="form-control .mapit-search" id="origin" name="origin" placeholder="Enter your starting" required>
 	  </div>
 	  <div class="form-group">
-	    <label class="sr-only" for="exampleInputEmail2">End</label>
-	    <input type="text" class="form-control .mapit-search" id="end_location" name="end_location" placeholder="Enter your destination" required>
+	    <label class="sr-only" for="destination">End</label>
+	    <input type="text" class="form-control .mapit-search" id="destination" name="destination" placeholder="Enter your destination" required>
 	  </div>
-	  <p>
+	  <div class="form-group">
+	    <select id="transit_mode" name="transit_mode" class="form-control .mapit-search">
+	        <option value="DRIVING" selected><?php echo $this->translate('Driving'); ?></option>
+	        <option value="BICYCLING"><?php echo $this->translate('Bicycle'); ?></option>
+	        <option value="TRANSIT"><?php echo $this->translate('Public transportation'); ?></option>
+	        <option value="WALKING"><?php echo $this->translate('Walking'); ?></option>
+	    </select>	    	    
+	  </div>	  
 	  <button id='btn_route' type="submit" class="btn btn-primary">Route</button>
 	  <button id='btn_reset' type="reset" class="btn btn-primary">Clear</button>
-	  <button id='btn_save' type="button" class="btn btn-success" disabled="disabled">Save Route</button>
-	  </p>
+	  <button id='btn_save' type="button" class="btn btn-success" disabled="disabled" data-toggle="modal" data-target="#saveModal">Save Route</button>
 	</form>
+	</div>	
+	<div class="tab-pane" id="location">
+	  <br>
+	  <form id="mapit-location-form" class="form-inline" role="mapit_location_form">
+	      <div class="form-group">
+              <input type="text" class="form-control" id="address" size="50" maxlength="70" placeholder="Enter your address"  />
+          </div>
+          <button id='btn_geocode' type="submit" class="btn btn-primary">Find!</button>
+          <button id='btn_reset2' type="reset" class="btn btn-primary">Clear</button>
+          <button id='btn_save2' type="button" class="btn btn-success" disabled="disabled" data-toggle="modal" data-target="#saveModal">Save Location</button>
+      </form>	
+	</div>
+	</div>
 	
+	
+	<br>  
+    <div id="map-canvas"></div> 
+	<div class="row">
 	<div id="directionsPanel">
 	<p><span id="total"></span></p>
 	</div>
+	</div>
+  </div>  
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="saveModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="saveModalLabel">Please enter a <span id="object">route</span> name.</h4>
+      </div>
+      <div class="modal-body">
+          <input id="route_place_name" type="text" class="form-control" placeholder="Route Name">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
   </div>
 </div>
+
+<script>
+$(function () {
+	
+});
+</script>
 
 <?php #END PUBLIC UI ?>

@@ -2,7 +2,7 @@
 
 use Zend\Db\Adapter\Adapter;
 
-$start_controller = 'Application\Controller\Index';
+$start_controller = isset($_SESSION['auth_user']) ? 'Dashboard\Controller\Dashboard' :'Application\Controller\Index';
 return array(
     'router' => array(
         'routes' => array(
@@ -74,13 +74,13 @@ return array(
 	'navigation' => array(
 			'default' => array(
 					array(
-							'label' => 'Download',
-							'route' => 'download',
+							'label' => 'Map-it',
+							'route' => 'mapit',
 					),					
 					/*
 					array(
 							'label' => 'About',
-							'route' => 'about',
+							//'route' => 'about',
 					),				
 					array(
 							'label' => 'Blog',
