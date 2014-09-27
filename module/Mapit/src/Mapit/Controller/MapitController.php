@@ -4,132 +4,99 @@ namespace Mapit\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
-use Mapit\Model\Mapit;
-use Mapit\Form\MapitForm;
+use Route\Model\Route;
+use Route\Model\RouteMapper;
 
 class MapitController extends AbstractActionController
 {
-	protected $mapitTable;
+	protected $routeTable;
 	protected $googleMapsKey;
 		
     public function indexAction()
     {
-    	$googleMaps_info = $this->getGoogleMapsInfo();
-    	$this->googleMapsKey = $googleMaps_info['api_key'];
+    	$googleMaps_info      = $this->getGoogleMapsInfo();
+    	$this->googleMapsKey  = $googleMaps_info['api_key'];
+    	$user_id              = isset($_SESSION['auth_user']['id'])?$_SESSION['auth_user']['id']:$this->redirect()->toRoute('home');
+    	$saved_routes         = $this->buildSaveRoutes($user_id);
+    	
     	return new ViewModel(array(
-             //'mapit' => $this->getMapitTable()->fetchAll(),
-             'api_key' => $this->googleMapsKey,
+             'api_key'      => $this->googleMapsKey,
+    		 'user_id'      => $user_id,
+    		 'saved_routes' => $saved_routes,		
          ));
-    }
-
-    public function addAction()
-    {
-    	$form = new MapitForm();
-    	$form->get('submit')->setValue('Add');    	
-    	$request = $this->getRequest();
-    	if ($request->isPost()) {
-    		$mapit = new Mapit();
-    		$form->setInputFilter($mapit->getInputFilter());
-    		$form->setData($request->getPost());    	
-    		if ($form->isValid()) {
-    			$mapit->exchangeArray($form->getData());
-    			$this->getMapitTable()->saveMapit($mapit);
-    	
-    			// Redirect to list of mapits
-    			return $this->redirect()->toRoute('mapit');
-    		}
-    	}
-    	return array('form' => $form);    	
-    }
-
-    public function editAction()
-    {
-    	$id = (int) $this->params()->fromRoute('id', 0);
-    	if (!$id) {
-    		return $this->redirect()->toRoute('mapit', array(
-    				'action' => 'add'
-    		));
-    	}
-
-    	try {
-    		$mapit = $this->getMapitTable()->getMapit($id);
-    	} catch (\Exception $ex) {
-    		return $this->redirect()->toRoute('mapit', array(
-    				'action' => 'index'
-    		));
-    	}
-    	
-    	$form  = new MapitForm();
-    	$form->bind($mapit);
-    	$form->get('submit')->setAttribute('value', 'Edit');    	
-    	$request = $this->getRequest();
-    	if ($request->isPost()) {
-    		$form->setInputFilter($mapit->getInputFilter());
-    		$form->setData($request->getPost());    	
-    		if ($form->isValid()) {
-    			$this->getMapitTable()->saveMapit($mapit);    	
-    			// Redirect to list of mapits
-    			return $this->redirect()->toRoute('mapit');
-    		}
-    	}
-    	
-    	return array(
-    			'id' => $id,
-    			'form' => $form,
-    	);    	
-    }
-
-    public function deleteAction()
-    {
-    	$id = (int) $this->params()->fromRoute('id', 0);
-    	if (!$id) {
-    		return $this->redirect()->toRoute('mapit');
-    	}
-    	
-    	$request = $this->getRequest();
-    	if ($request->isPost()) {
-    		$del = $request->getPost('del', 'No');
-    	
-    		if ($del == 'Yes') {
-    			$id = (int) $request->getPost('id');
-    			$this->getMapitTable()->deleteMapit($id);
-    		}
-    	
-    		// Redirect to list of mapits
-    		return $this->redirect()->toRoute('mapit');
-    	}
-    	
-    	return array(
-    			'id'    => $id,
-    			'mapit' => $this->getMapitTable()->getMapit($id)
-    	);    	
     }
     
     public function ajaxAction()
     {
-    	$result = new JsonModel(array(
-	    	'some_parameter' => 'some value',
-            'success'=>true,
-        ));
-        return $result;
+    	$result = "";
+    	$request = $this->getRequest();
+	    if ($request->isXmlHttpRequest()){
+	    	$route = new Route();
+	    	$data = $request->getPost();  	
+	    	$errors_count = count($this->ajaxRouteValidation($data));
+	    	if ($errors_count == 0) {
+    	    	$route->exchangeArray($data);
+	    		$this->getRouteTable()->saveRoute($route);
+	    		$result = new JsonModel(array( 'success'=>true, ));
+	    	} else {
+	    		$result = new JsonModel(array( 'success'=>false, ));
+	    	}	
+	    } else {
+	    	$result = $this->redirect()->toRoute('mapit');
+	    }
+    	return $result;
+    }
+    
+    private function ajaxRouteValidation($DATA)
+    {
+    	$isValid = array();
+    	foreach ($DATA as $key => $val) {
+    		if ($key != 'id' && $val == "") {
+    			$isValid[]= "'{$key}' cannot be blank!";
+    		}   		
+    	}    	
+    	return $isValid;
     }
     
     private function getGoogleMapsInfo()
     {
-    	$serviceLocator = $this->getServiceLocator();
-    	$config         = $serviceLocator->get('config');
-    	$this->googleMapsKey       = $config['google_maps'];
+    	$serviceLocator       = $this->getServiceLocator();
+    	$config               = $serviceLocator->get('config');
+    	$this->googleMapsKey  = $config['google_maps'];
     	return $this->googleMapsKey;
     }    
-    
-    public function getMapitTable()
+
+    private function getRouteTable()
     {
-    	/*
-    	if (!$this->mapitTable) {
+    	if (!$this->routeTable) {
     		$sm = $this->getServiceLocator();
-    		$this->mapitTable = $sm->get('Mapit\Model\MapitTable');
+    		$this->routeTable = $sm->get('Route\Model\RouteTable');
     	}
-    	*/
-    	return $this->mapitTable;
-    }    
+    	return $this->routeTable;
+    }
+
+    private function buildSaveRoutes($id)
+    {
+    	$user_saved_routes =  $this->getRouteTable()->get_routes_by_user_id($id);
+    	if (!empty($user_saved_routes)) {
+    		$num = count($user_saved_routes);
+    		$output = "<div class='btn-group'><button class='btn btn-default btn-sm dropdown-toggle' type='button' data-toggle='dropdown'>
+    		           Saved Routes&nbsp;<span class='caret'></span>
+    		           </button>";
+    		$output .= "<ul class='dropdown-menu' role='menu'>";
+	    	foreach ($user_saved_routes as $route) {
+	    		$output .= "<li>
+	    		                <a data-rid='{$route->id}'>
+	    		                    <strong>{$route->route_name}</strong><br>
+	    		                    <strong>From:</strong> {$route->origin}<br>
+	    		                    <strong>To:</strong> {$route->destination}
+	    		                </a>
+	    		            </li> \n";
+	    	}
+	    	$output .= "</ul></div> \n";
+    	} else {
+    		$output = "You have no routes saved.";
+    	}
+    	return $output;		
+    }
 }

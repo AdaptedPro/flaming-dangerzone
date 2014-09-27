@@ -20,12 +20,13 @@ class IndexController extends AbstractActionController
     
     private function get_menu($sql) 
     {
-    	$serviceLocator = $this->getServiceLocator();
-    	$config         = $serviceLocator->get('config');
-    	$configArray    = $config['db'];
-    	$adapter        = new Adapter($configArray);
-    	$statement      = $adapter->query($sql);    	
-    	$records        = $statement->execute();
+    	$serviceLocator   = $this->getServiceLocator();
+    	$config           = $serviceLocator->get('config');
+    	$configArray      = $config['db'];
+    	$adapter          = new Adapter($configArray);
+    	$statement        = $adapter->query($sql);    	
+    	$records          = $statement->execute();
+    	$formattedRecords = [];
     	if ($records != false) {
     		foreach ($records as $index => $value) {
     			$formattedRecords[$index] = $value;

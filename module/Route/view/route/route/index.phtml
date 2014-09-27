@@ -1,0 +1,29 @@
+ <?php
+ $route_type = 'My routes';
+ $this->headTitle($route_type);
+ ?>
+<h1><?php echo $this->escapeHtml($route_type); ?></h1>
+<p><a href="<?php echo $this->url('route', array('action'=>'add'));?>">Add new route</a></p>
+<table class="table table-striped">
+<tr>
+     <th>Route Name</th>
+     <th>Origin</th>
+     <th>Destination</th>
+     <th>Travel Mode</th>
+     <th>&nbsp;&nbsp;</th>
+ </tr>
+ <?php foreach ($routes as $route) : ?>
+ <tr>
+     <td><?php echo $this->escapeHtml($route->route_name);?></td>
+     <td><?php echo $this->escapeHtml($route->origin);?></td>
+     <td><?php echo $this->escapeHtml($route->destination);?></td>
+     <td><?php echo $this->escapeHtml($route->travel_mode);?></td>
+     <td>
+         <a href="<?php echo $this->url('route',
+             array('action'=>'edit', 'id' => $route->id));?>">Edit</a>
+         <a href="<?php echo $this->url('route',
+             array('action'=>'delete', 'id' => $route->id));?>">Delete</a>
+     </td>
+ </tr>
+ <?php endforeach; ?>
+ </table>

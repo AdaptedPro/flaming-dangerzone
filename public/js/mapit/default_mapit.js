@@ -2,34 +2,54 @@ $(function() {
 	//Set variables
     var rendererOptions = { draggable: true };
     var directionsPane = $('#directionsPanel').html();
-    var directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);;
+    var directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
     var directionsService = new google.maps.DirectionsService();
     var locale =  start = end =  good_start = good_end = '';
     var disable = true;
     var geocoder;
     var map;
+    var save_list_open = false; 
     
+    $(".alert").alert();
+     
     //When user request a route.
-    $("#mapit-route-form").submit(function(e) { 
+    $("#mapit-route-form").submit(function(e) {
+    	if (save_list_open == true) {    		
+    		$('#saved_routes_lists').slideUp();
+    		save_list_open = false;
+    	}
     	calcRoute();
     	return false; 
     });
     
     //When user request a location.
     $("#mapit-location-form").submit(function(e) { 
-    	//codeAddress();
+    	codeAddress();
     	return false; 
     });
-    
-    //When user wants to save a route.
-    $('#btn_save').click(function(e) {
+
+    //When user wants to save a route.    
+    $('#save_route').click(function(e) {
     	if ( good_start != '' && good_end != '' ) {
-    		$.post('mapit/ajax', function(e) {
-    			console.log(e);
+    		$('#saveRouteModal').modal('hide');
+    		$('#saved_item').html('route');
+    		$.post('mapit/ajax', $('.mapit-search').serialize()).done(function(msg) {    			
+    			$('#success_alert').show();
     			$('#btn_save').prop("disabled",true);
     		});
+    	}    	
+    });
+    
+    //Toggle saved rout list
+    $('#saved_route_list_link').click(function(e) {
+    	if (save_list_open == false) {    		
+    		$('#saved_routes_lists').slideDown();
+    		save_list_open = true;
+    	} else {
+    		$('#saved_routes_lists').slideUp();
+    		save_list_open = false;
     	}
-    });    
+    });   
     
     //When user wants to save a route.
     $('#btn_geocode').click(function(e) {
@@ -54,7 +74,7 @@ $(function() {
     function calcRoute() {
        var start = $('#origin').val();
        var end   = $('#destination').val();
-       switch($("#transit_mode").val()) {
+       switch($("#travel_mode").val()) {
            case 'DRIVING':
         	   mode = google.maps.TravelMode.DRIVING;
         	   break;
@@ -141,6 +161,17 @@ $(function() {
     function clearOverlays() {
     	
     }
+    
+    //simulate click
+    function eventFire(el, etype) {
+        if (el.fireEvent) {
+            el.fireEvent('on' + etype);
+    	} else {
+            var evObj = document.createEvent('Events');
+                evObj.initEvent(etype, true, false);
+            el.dispatchEvent(evObj);
+    	}
+    }    
     
     //When map ready
     google.maps.event.addDomListener(window, 'load', initialize);

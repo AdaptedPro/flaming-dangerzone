@@ -1,9 +1,9 @@
 <?php
-namespace Mapit;
+namespace Route;
 
 use Zend\Mvc\ModuleRouteListener;
-use Mapit\Model\Mapit;
-use Mapit\Model\MapitTable;
+use Route\Model\Route;
+use Route\Model\RouteTable;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
 
@@ -32,21 +32,6 @@ class Module
     public function getServiceConfig()
     {
     	return array(
-    			/*
-    			'factories' => array(
-    					'Mapit\Model\MapitTable' =>  function($sm) {
-    						$tableGateway = $sm->get('MapitTableGateway');
-    						$table = new MapitTable($tableGateway);
-    						return $table;
-    					},
-    					'MapitTableGateway' => function ($sm) {
-    						$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
-    						$resultSetPrototype = new ResultSet();
-    						$resultSetPrototype->setArrayObjectPrototype(new Mapit());
-    						return new TableGateway('project', $dbAdapter, null, $resultSetPrototype);
-    					},
-    			),
-    			*/
     			'factories' => array(
     					'Route\Model\RouteTable' =>  function($sm) {
     						$tableGateway = $sm->get('RouteTableGateway');
@@ -59,7 +44,7 @@ class Module
     						$resultSetPrototype->setArrayObjectPrototype(new Route());
     						return new TableGateway('route', $dbAdapter, null, $resultSetPrototype);
     					},
-    			),   			
+    			),
     	);
     }    
 }

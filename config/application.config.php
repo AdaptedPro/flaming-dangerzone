@@ -3,7 +3,7 @@ $env = getenv('APPLICATION_ENV')?: 'production';
 
 // Use the $env value to determine which modules to load
 $modules = array(
-		'Application','Dashboard','Search','Upload','Project','User','Rover','Login','Mapit', 'Download'
+		'Application','Dashboard','Mapit','Route','Project'
 );
 if ($env == 'development') {	
 	#$modules[] = 'ZendDeveloperTools';

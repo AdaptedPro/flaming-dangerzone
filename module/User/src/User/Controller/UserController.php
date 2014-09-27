@@ -204,10 +204,7 @@ class UserController extends AbstractActionController
      	<p>Thanks for joining and have a great day!</p>
 	</body>
 </html>";
-     	
-    	#$body             = 'Hello World';//file_get_contents('Hello World');
-    	#$body             = preg_replace("",'',$body);
-    			 
+     	    			 
     	$mail->SetFrom('noreply@adaptedpro.net', '');
     	$address = $this->user_email;
     	

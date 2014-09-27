@@ -1,10 +1,10 @@
  <?php
- $title = 'Add new location';
+ $title = 'Add new route';
  $this->headTitle($title);
  ?>
  <h1><?php echo $this->escapeHtml($title); ?></h1>
  <?php
- $form->setAttribute('action', $this->url('location', array('action' => 'add')));
+ $form->setAttribute('action', $this->url('route', array('action' => 'add')));
  $form->prepare();
 
 echo $this->form()->openTag($form);
