@@ -11,7 +11,6 @@
 <h2><?php echo $this->escapeHtml($mapit_heading); ?></h2>
  
 <div class="row">
-  <div class="col-xs-12 col-sm-6 col-md-8">
     <ul class="nav nav-tabs" role="tablist" id="myTab">
       <li class="active"><a href="#route" role="tab" data-toggle="tab">Route</a></li>
       <li><a href="#location" role="tab" data-toggle="tab">Location</a></li>
@@ -19,9 +18,14 @@
     <div class="tab-content">
     <div class="tab-pane active" id="route">
     <br>
+	<div id="success_alert" class="alert alert-success" role="alert">
+	    Your <span id='saved_item'></span> has been save!
+	    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+	</div>    
 	<form id="mapit-route-form" class="form-inline" role="mapit_route_form">
 	  <input type="hidden" class="mapit-search" name="id" >
-	  <input type="hidden" class="mapit-search" name="user_id" value="<?php echo $this->user_id; ?>" >
+	  <input type="hidden" class="mapit-search" name="user_id" value="<?php echo $this->user_id; ?>">
+	  <?php echo $this->saved_routes; ?>
 	  <div class="form-group">
 	    <label class="sr-only" for="origin">Start</label>
 	    <input type="text" class="form-control mapit-search" id="origin" name="origin" placeholder="Enter your starting" required>
@@ -55,19 +59,12 @@
       </form>	
 	</div>
 	</div>	
-	<div id="success_alert" class="alert alert-success" role="alert">
-	    Your <span id='saved_item'></span> has been save!
-	    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-	</div>
-	<?php echo $this->saved_routes; ?>
-    <div id="map-canvas"></div>
+    <div id="map-canvas" class="jumbotron"></div>
 	<div class="row">
 	    <div id="directionsPanel">
 	      <p><span id="total"></span></p>
 	    </div>
 	</div>
-  </div>
-  <div class="col-xs-6 col-md-4"></div>
 </div>
 
 <!-- Modals -->

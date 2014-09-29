@@ -46,7 +46,7 @@ class RouteTable
 				'travel_mode' => $route->travel_mode,
 		);
 
-		$id = (int) $route->route_id;
+		$id = (int) $route->id;
 		if ($id == 0) {
 			$this->tableGateway->insert($data);
 		} else {

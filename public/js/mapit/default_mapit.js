@@ -4,20 +4,17 @@ $(function() {
     var directionsPane = $('#directionsPanel').html();
     var directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
     var directionsService = new google.maps.DirectionsService();
-    var locale =  start = end =  good_start = good_end = '';
+    var locale = start = end =  good_start = good_end = '';
     var disable = true;
     var geocoder;
     var map;
-    var save_list_open = false; 
+    var markers = [];
     
+    //Init alerts wiht style
     $(".alert").alert();
      
     //When user request a route.
     $("#mapit-route-form").submit(function(e) {
-    	if (save_list_open == true) {    		
-    		$('#saved_routes_lists').slideUp();
-    		save_list_open = false;
-    	}
     	calcRoute();
     	return false; 
     });
@@ -33,9 +30,15 @@ $(function() {
     	if ( good_start != '' && good_end != '' ) {
     		$('#saveRouteModal').modal('hide');
     		$('#saved_item').html('route');
+    		$('#route_name').html('');
     		$.post('mapit/ajax', $('.mapit-search').serialize()).done(function(msg) {    			
-    			$('#success_alert').show();
+    			$('#success_alert').fadeOut();
     			$('#btn_save').prop("disabled",true);
+    			if ($('#saved_routes').length > 0) {
+    				$('#saved_routes').html(msg.routes);
+    		    } else {
+    		    	
+    		    }
     		});
     	}    	
     });
@@ -59,7 +62,7 @@ $(function() {
     //Clear search form.
     $('#btn_reset').click(function(e){
     	$('#directionsPanel').html(directionsPane);
-    	initialize();
+    	clearOverlays();
     });
     
     //Request users location
@@ -91,12 +94,8 @@ $(function() {
         	   mode = google.maps.TravelMode.DRIVING;
         	   break;        	   
        }
-       var request = {
-    			origin: start,
-    			destination: end,
-    			travelMode: mode
-    		};    	
-    	directionsService.route(request, function(response, status) {
+       var request = { origin: start, destination: end, travelMode: mode };
+       directionsService.route(request, function(response, status) {
     		if (status == google.maps.DirectionsStatus.OK) {
     			directionsDisplay.setDirections(response);
     			good_start = start;
@@ -109,6 +108,17 @@ $(function() {
     		$('#btn_save').prop("disabled",disable);
     	});
     }
+    
+    //simulate click
+    function eventFire(el, etype) {
+        if (el.fireEvent) {
+            el.fireEvent('on' + etype);
+    	} else {
+            var evObj = document.createEvent('Events');
+                evObj.initEvent(etype, true, false);
+            el.dispatchEvent(evObj);
+    	}
+    }    
 
     //Total Distance
     function computeTotalDistance(result) {
@@ -130,10 +140,7 @@ $(function() {
     //Load Map
     function mapLocation() {
     	var loc = (locale!="") ? locale : new google.maps.LatLng(41.850033, -87.6500523);
-    	var mapOptions = {
-    			zoom: 7,
-    			center: loc
-    		};
+    	var mapOptions = { zoom: 7, center: loc };
     	map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
     	directionsDisplay.setMap(map);
     	directionsDisplay.setPanel(document.getElementById('directionsPanel'));
@@ -148,10 +155,8 @@ $(function() {
         geocoder.geocode( { 'address': address}, function(results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
                 map.setCenter(results[0].geometry.location);
-                var marker = new google.maps.Marker({
-    	            map: map,
-    	            position: results[0].geometry.location
-    	        });
+                var marker = new google.maps.Marker({ map: map, position: results[0].geometry.location });
+                markers.push(marker);
     	    } else {
     	      alert('Geocode was not successful for the following reason: ' + status);
     	    }
@@ -159,19 +164,22 @@ $(function() {
     }
     
     function clearOverlays() {
-    	
+    	var rendererOptions = { map: map };
+    	if(directionsDisplay != null) {
+    	    directionsDisplay.setMap(null);
+    	    directionsDisplay = null;
+    	}
+    	directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
+    	directionsDisplay.setMap(map);
+    	directionsDisplay.setPanel(document.getElementById("directionsPanel"));
     }
     
-    //simulate click
-    function eventFire(el, etype) {
-        if (el.fireEvent) {
-            el.fireEvent('on' + etype);
-    	} else {
-            var evObj = document.createEvent('Events');
-                evObj.initEvent(etype, true, false);
-            el.dispatchEvent(evObj);
-    	}
-    }    
+    google.maps.Map.prototype.clearOverlays = function() {
+    	for (var i = 0; i < markers.length; i++ ) {
+    		markers[i].setMap(null);
+        }
+        markers.length = 0;
+    }
     
     //When map ready
     google.maps.event.addDomListener(window, 'load', initialize);

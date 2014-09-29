@@ -18,7 +18,6 @@ class MapitController extends AbstractActionController
     	$this->googleMapsKey  = $googleMaps_info['api_key'];
     	$user_id              = isset($_SESSION['auth_user']['id'])?$_SESSION['auth_user']['id']:$this->redirect()->toRoute('home');
     	$saved_routes         = $this->buildSaveRoutes($user_id);
-    	
     	return new ViewModel(array(
              'api_key'      => $this->googleMapsKey,
     		 'user_id'      => $user_id,
@@ -28,7 +27,8 @@ class MapitController extends AbstractActionController
     
     public function ajaxAction()
     {
-    	$result = "";
+    	$user_id = isset($_SESSION['auth_user']['id'])?$_SESSION['auth_user']['id']:$this->redirect()->toRoute('home');
+    	$result  = "";
     	$request = $this->getRequest();
 	    if ($request->isXmlHttpRequest()){
 	    	$route = new Route();
@@ -37,7 +37,10 @@ class MapitController extends AbstractActionController
 	    	if ($errors_count == 0) {
     	    	$route->exchangeArray($data);
 	    		$this->getRouteTable()->saveRoute($route);
-	    		$result = new JsonModel(array( 'success'=>true, ));
+	    		$result = new JsonModel(array( 
+	    				'success'=>true, 
+	    				'routes' => $this->buildSaveRoutes($user_id), 
+	    				));
 	    	} else {
 	    		$result = new JsonModel(array( 'success'=>false, ));
 	    	}	
@@ -80,20 +83,22 @@ class MapitController extends AbstractActionController
     	$user_saved_routes =  $this->getRouteTable()->get_routes_by_user_id($id);
     	if (!empty($user_saved_routes)) {
     		$num = count($user_saved_routes);
-    		$output = "<div class='btn-group'><button class='btn btn-default btn-sm dropdown-toggle' type='button' data-toggle='dropdown'>
-    		           Saved Routes&nbsp;<span class='caret'></span>
-    		           </button>";
-    		$output .= "<ul class='dropdown-menu' role='menu'>";
-	    	foreach ($user_saved_routes as $route) {
-	    		$output .= "<li>
-	    		                <a data-rid='{$route->id}'>
-	    		                    <strong>{$route->route_name}</strong><br>
-	    		                    <strong>From:</strong> {$route->origin}<br>
-	    		                    <strong>To:</strong> {$route->destination}
-	    		                </a>
-	    		            </li> \n";
-	    	}
-	    	$output .= "</ul></div> \n";
+    		if ($num > 0) {
+	    		$output = "<div id='saved_routes' class='btn-group'><button class='btn btn-default btn-sm dropdown-toggle' type='button' data-toggle='dropdown'>
+	    		           Saved Routes&nbsp;<span class='caret'></span>
+	    		           </button>";
+	    		$output .= "<ul class='dropdown-menu' role='menu'>";
+		    	foreach ($user_saved_routes as $route) {
+		    		$output .= "<li>
+		    		                <a data-rid='{$route->id}'>
+		    		                    <strong>{$route->route_name}</strong><br>
+		    		                    <strong>From:</strong> {$route->origin}<br>
+		    		                    <strong>To:</strong> {$route->destination}
+		    		                </a>
+		    		            </li> \n";
+		    	}
+		    	$output .= "</ul></div> \n";
+    		}
     	} else {
     		$output = "You have no routes saved.";
     	}
