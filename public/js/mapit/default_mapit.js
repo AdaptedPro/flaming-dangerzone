@@ -14,6 +14,9 @@ $(function() {
      
     //When user request a route.
     $("#mapit-route-form").submit(function(e) {
+    	$('html, body').animate({
+            scrollTop: $("#map-canvas").offset().top-50
+        }, 500);
     	$("#btn_reset2").trigger( "click" );
     	calcRoute();
     	return false; 
@@ -21,6 +24,9 @@ $(function() {
     
     //When user request a location.
     $("#mapit-location-form").submit(function(e) {
+    	$('html, body').animate({
+            scrollTop: $("#map-canvas").offset().top
+        }, 2000);
     	$("#btn_reset").trigger( "click" );
     	clearDirectionsOverlay();
     	codeAddress();
@@ -62,20 +68,17 @@ $(function() {
     });
     
     //Clear search form.
-    $('#btn_reset').click(function(e){
-    	$('#directionsPanel').html('');
-    	clearDirectionsOverlay();
-    });
-    
-    $('#btn_reset2').click(function(e) {
+    $('#btn_reset, #btn_reset2').click(function(e) {
         //Clearing markers
     	$('#directionsPanel').html('');
+    	clearDirectionsOverlay();
         google.maps.Map.prototype.clearOverlays = function() {
         	for (var i = 0; i < markers.length; i++ ) {
         		markers[i].setMap(null);
             }
             markers.length = 0;
-        }    	
+        };
+        $('#btn_save').prop("disabled",true);
     });
     
     //When user selects a route from list
