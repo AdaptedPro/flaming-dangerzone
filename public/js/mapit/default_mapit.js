@@ -1,7 +1,6 @@
 $(function() {
-	//Set variables
+    //Set variables
     var rendererOptions = { draggable: true };
-    var directionsPane = $('#directionsPanel').html();
     var directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
     var directionsService = new google.maps.DirectionsService();
     var locale = start = end =  good_start = good_end = '';
@@ -15,12 +14,15 @@ $(function() {
      
     //When user request a route.
     $("#mapit-route-form").submit(function(e) {
+    	$("#btn_reset2").trigger( "click" );
     	calcRoute();
     	return false; 
     });
     
     //When user request a location.
-    $("#mapit-location-form").submit(function(e) { 
+    $("#mapit-location-form").submit(function(e) {
+    	$("#btn_reset").trigger( "click" );
+    	clearDirectionsOverlay();
     	codeAddress();
     	return false; 
     });
@@ -31,7 +33,7 @@ $(function() {
     		$('#saveRouteModal').modal('hide');
     		$('#saved_item').html('route');
     		$('#route_name').html('');
-    		$.post('mapit/ajax', $('.mapit-search').serialize()).done(function(msg) {    			
+    		$.post('mapit/ajaxSaveRoute', $('.mapit-search').serialize()).done(function(msg) {    			
     			$('#success_alert').fadeOut();
     			$('#btn_save').prop("disabled",true);
     			if ($('#saved_routes').length > 0) {
@@ -61,8 +63,28 @@ $(function() {
     
     //Clear search form.
     $('#btn_reset').click(function(e){
-    	$('#directionsPanel').html(directionsPane);
-    	clearOverlays();
+    	$('#directionsPanel').html('');
+    	clearDirectionsOverlay();
+    });
+    
+    $('#btn_reset2').click(function(e) {
+        //Clearing markers
+    	$('#directionsPanel').html('');
+        google.maps.Map.prototype.clearOverlays = function() {
+        	for (var i = 0; i < markers.length; i++ ) {
+        		markers[i].setMap(null);
+            }
+            markers.length = 0;
+        }    	
+    });
+    
+    //When user selects a route from list
+    $('#saved_routes').change(function(e) {
+    	$.get('mapit/ajaxGetRoute/'+$(this).val(), function(m) {
+    		$('#origin').val(m.success['origin']);
+    		$('#destination').val(m.success['destination']);
+    		$("#travel_mode").val(m.success['travel_mode']);
+    	});
     });
     
     //Request users location
@@ -100,6 +122,7 @@ $(function() {
     			directionsDisplay.setDirections(response);
     			good_start = start;
     			good_end = end;
+        		//disable = $('#id').val() > 0 ? true : false;
     	    	disable = false;
     		} else {
     			good_start = good_end = '';
@@ -107,18 +130,7 @@ $(function() {
     		}
     		$('#btn_save').prop("disabled",disable);
     	});
-    }
-    
-    //simulate click
-    function eventFire(el, etype) {
-        if (el.fireEvent) {
-            el.fireEvent('on' + etype);
-    	} else {
-            var evObj = document.createEvent('Events');
-                evObj.initEvent(etype, true, false);
-            el.dispatchEvent(evObj);
-    	}
-    }    
+    } 
 
     //Total Distance
     function computeTotalDistance(result) {
@@ -131,7 +143,7 @@ $(function() {
     	$('#total').html('<h4>Directions&nbsp;&nbsp;<span class="glyphicon glyphicon-print"></span>&nbsp;&nbsp;<span class="glyphicon glyphicon-envelope"></span></h4>' + total + ' km');
     }
     
-    //
+    //Center map relative to user
     function showPosition(position) {
     	locale = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
     	mapLocation();
@@ -163,7 +175,8 @@ $(function() {
         });
     }
     
-    function clearOverlays() {
+    //Clear driving directions
+    function clearDirectionsOverlay() {
     	var rendererOptions = { map: map };
     	if(directionsDisplay != null) {
     	    directionsDisplay.setMap(null);
@@ -172,15 +185,9 @@ $(function() {
     	directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
     	directionsDisplay.setMap(map);
     	directionsDisplay.setPanel(document.getElementById("directionsPanel"));
+    	$('#directionsPanel').html('');
     }
-    
-    google.maps.Map.prototype.clearOverlays = function() {
-    	for (var i = 0; i < markers.length; i++ ) {
-    		markers[i].setMap(null);
-        }
-        markers.length = 0;
-    }
-    
+        
     //When map ready
     google.maps.event.addDomListener(window, 'load', initialize);
 });

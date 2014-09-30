@@ -88,11 +88,14 @@ $li_option =  ( isset($_SESSION['auth_user']) && isset($_SESSION['auth_user']['e
         </div>
       </div>      
       <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-      	<?php echo $this->navigation('navigation')
+      	<?php 
+      	/*
+      	echo $this->navigation('navigation')
 		    ->breadcrumbs()
 		    ->setMinDepth(0)
 		    ->setMinDepth(0)
 		    ->setPartial(array('partial/breadcrumb.phtml', 'Dashboard'));
+		*/    
 		?>
 		<?php echo $this->content; ?>
       </div>      

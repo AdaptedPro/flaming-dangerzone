@@ -29,16 +29,18 @@ class Module
         return include __DIR__ . '/config/module.config.php';
     }
     
+    /*
     public function getServiceConfig()
     {
     	return array(
+    					
     			'factories' => array(
     					'Rover\Model\RoverTable' =>  function($sm) {
     						$tableGateway = $sm->get('RoverTableGateway');
     						$table = new RoverTable($tableGateway);
     						return $table;
     					}
-    					/*
+    					
     					 ,
     					'RoverTableGateway' => function ($sm) {
     						$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
@@ -46,8 +48,9 @@ class Module
     						$resultSetPrototype->setArrayObjectPrototype(new Rover());
     						return new TableGateway('rover', $dbAdapter, null, $resultSetPrototype);
     					},
-    					*/
     			),
+    					
     	);
-    }    
+    }
+    */    
 }

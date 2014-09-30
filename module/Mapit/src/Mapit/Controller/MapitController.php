@@ -25,7 +25,7 @@ class MapitController extends AbstractActionController
          ));
     }
     
-    public function ajaxAction()
+    public function ajaxSaveRouteAction()
     {
     	$user_id = isset($_SESSION['auth_user']['id'])?$_SESSION['auth_user']['id']:$this->redirect()->toRoute('home');
     	$result  = "";
@@ -45,6 +45,23 @@ class MapitController extends AbstractActionController
 	    		$result = new JsonModel(array( 'success'=>false, ));
 	    	}	
 	    } else {
+	    	$result = $this->redirect()->toRoute('mapit');
+	    }
+    	return $result;
+    }
+    
+    public function ajaxGetRouteAction()
+    {
+    	$result  = "";
+    	$request = $this->getRequest();
+    	if ($request->isXmlHttpRequest()){
+    		$route = new Route();
+    		$data = isset($_GET)?$_GET:'';
+    		$id = (int) $this->params()->fromRoute('id', 0);
+    		$result = new JsonModel(array( 
+    				'success'=> $this->getRouteTable()->getRoute($id),    				 
+    		));
+    	} else {
 	    	$result = $this->redirect()->toRoute('mapit');
 	    }
     	return $result;
@@ -84,20 +101,13 @@ class MapitController extends AbstractActionController
     	if (!empty($user_saved_routes)) {
     		$num = count($user_saved_routes);
     		if ($num > 0) {
-	    		$output = "<div id='saved_routes' class='btn-group'><button class='btn btn-default btn-sm dropdown-toggle' type='button' data-toggle='dropdown'>
-	    		           Saved Routes&nbsp;<span class='caret'></span>
-	    		           </button>";
-	    		$output .= "<ul class='dropdown-menu' role='menu'>";
+	    		$output = "<div class='form-group'>";
+    			$output .= "<select id='saved_routes' name='saved_routes' class='form-control'> \n";
+	    		$output .= "<option value=''>Saved Routes</option> \n";
 		    	foreach ($user_saved_routes as $route) {
-		    		$output .= "<li>
-		    		                <a data-rid='{$route->id}'>
-		    		                    <strong>{$route->route_name}</strong><br>
-		    		                    <strong>From:</strong> {$route->origin}<br>
-		    		                    <strong>To:</strong> {$route->destination}
-		    		                </a>
-		    		            </li> \n";
+		    		$output .= "<option value='{$route->id}'>{$route->route_name}</option> \n";
 		    	}
-		    	$output .= "</ul></div> \n";
+		    	$output .= "</select></div> \n";
     		}
     	} else {
     		$output = "You have no routes saved.";

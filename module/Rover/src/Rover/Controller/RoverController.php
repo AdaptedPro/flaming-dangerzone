@@ -1,122 +1,38 @@
 <?php
 namespace Rover\Controller;
 
+use \PHPMailer;
+use \Ssh2_crontab_manager;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 use Rover\Model\Rover;
-use Rover\Form\RoverForm;
 
 class RoverController extends AbstractActionController
 {
-	protected $roverTable;
 	
     public function indexAction()
     {
-         return new ViewModel(array(
-             'rovers' => $this->getRoverTable()->fetchAll(),
+       return new ViewModel(array(
+             //'rovers' => $this->getRoverTable()->fetchAll(),
          ));
     }
     
-    /*
-    public function addAction()
+    private function cronTest()
     {
-    	$form = new RoverForm();
-    	$form->get('submit')->setValue('Add');
-    	
-    	$request = $this->getRequest();
-    	if ($request->isPost()) {
-    		$rover = new Rover();
-    		$form->setInputFilter($rover->getInputFilter());
-    		$form->setData($request->getPost());
-    	
-    		if ($form->isValid()) {
-    			$rover->exchangeArray($form->getData());
-    			$this->getRoverTable()->saveRover($rover);
-    	
-    			// Redirect to list of rovers
-    			return $this->redirect()->toRoute('rover');
-    		}
-    	}
-    	return array('form' => $form);    	
+    	//$crontab = new Ssh2_crontab_manager(address, port, username, password );
+    	$crontab = new Ssh2_crontab_manager('localhost','','','');
+    	$crontab->append_cronjob('30 15 * * 1 home/path/to/command/the_command.sh >/dev/null 2>&1');
     }
-
-    public function editAction()
-    {
-    	$id = (int) $this->params()->fromRoute('id', 0);
-    	if (!$id) {
-    		return $this->redirect()->toRoute('rover', array(
-    				'action' => 'add'
-    		));
-    	}
-    	
-    	// Get the Rover with the specified id.  An exception is thrown
-    	// if it cannot be found, in which case go to the index page.
-    	try {
-    		$rover = $this->getRoverTable()->getRover($id);
-    	}
-    	catch (\Exception $ex) {
-    		return $this->redirect()->toRoute('rover', array(
-    				'action' => 'index'
-    		));
-    	}
-    	
-    	$form  = new RoverForm();
-    	$form->bind($rover);
-    	$form->get('submit')->setAttribute('value', 'Edit');
-    	
-    	$request = $this->getRequest();
-    	if ($request->isPost()) {
-    		$form->setInputFilter($rover->getInputFilter());
-    		$form->setData($request->getPost());
-    	
-    		if ($form->isValid()) {
-    			$this->getRoverTable()->saveRover($rover);
-    	
-    			// Redirect to list of rovers
-    			return $this->redirect()->toRoute('rover');
-    		}
-    	}
-    	
-    	return array(
-    			'id' => $id,
-    			'form' => $form,
-    	);    	
-    }
-
-    public function deleteAction()
-    {
-    	$id = (int) $this->params()->fromRoute('id', 0);
-    	if (!$id) {
-    		return $this->redirect()->toRoute('rover');
-    	}
-    	
-    	$request = $this->getRequest();
-    	if ($request->isPost()) {
-    		$del = $request->getPost('del', 'No');
-    	
-    		if ($del == 'Yes') {
-    			$id = (int) $request->getPost('id');
-    			$this->getRoverTable()->deleteRover($id);
-    		}
-    	
-    		// Redirect to list of rovers
-    		return $this->redirect()->toRoute('rover');
-    	}
-    	
-    	return array(
-    			'id'    => $id,
-    			'rover' => $this->getRoverTable()->getRover($id)
-    	);    	
-    }
-    */
-    
+            
     public function getRoverTable()
     {
+    	/*
     	if (!$this->roverTable) {
     		$sm = $this->getServiceLocator();
     		$this->roverTable = $sm->get('Rover\Model\RoverTable');
     	}
+    	*/
     	return $this->roverTable;
     }
 
@@ -124,7 +40,6 @@ class RoverController extends AbstractActionController
     /*
      * MAKE AJAX FUNCTIONS RETURN AS JSON OR XML!
      */
-  
     public function aliveAction()
     {	
     	if (isset($_SESSION['auth_user'])) {
@@ -154,5 +69,63 @@ class RoverController extends AbstractActionController
     		));
     		return $result;    		
     	}
-    } 	   
+    }
+    
+    public function reportAction() {
+    	$result = new JsonModel(array(
+    			'success' => $this->sendMail(),
+    	)); 
+    	return $result;   	
+    }
+    
+    private function sendMail()
+    {
+    	$mail = new PHPMailer();
+    	$mail->IsSendmail();
+    	$mail->IsSMTP();
+    	$mail->SMTPDebug = 2;
+    	$mail->Debugoutput = 'html';
+    	$mail->Host = 'mail.adaptedpro.net';
+    	$mail->Port = 587;
+    	$mail->SMTPAuth = true;
+    	$mail->Username = "noreply@adaptedpro.net";
+    	$mail->Password = "H5qdd*dD68";
+    	
+    	$body = "
+    	<html>
+    	<body>
+    	<h1>Hello World!</h1>
+    	<p>The cron job is working</p>
+    	</body>
+    	</html>";
+    	
+    	$mail->SetFrom('noreply@adaptedpro.net', '');
+    	$address = 'adamjames_pro@yahoo.com';
+    			 
+    	$mail->AddAddress($address, " Hey You");
+    	$mail->Subject    = "Cron Job";
+    	$mail->AltBody    = "To view the message, please use an HTML compatible email viewer!"; // optional, comment out and test
+    	$mail->MsgHTML($body);
+    	
+    	if(!$mail->Send()) {
+    	    //echo "Mailer Error: " . $mail->ErrorInfo;
+    	    return false;
+    	} else {
+    		//echo "Message sent!";
+    		return true;
+    	}    	
+    }
+
+    private function regex_filter($string)
+    {
+    	$output="";    
+    	#mixed preg_replace ( mixed $pattern , mixed $replacement , mixed $subject [, int $limit = -1 [, int &$count ]] )
+    	$pattern = '/(\w+) (\d+), (\d+)/i';
+    	$replacement = '${1}1,$3';
+    	$output = preg_replace($pattern, $replacement, $string);
+    	//echo regex_filter('April 15, 2003');
+    	//echo regex_filter("#request_data['catalog_description']");    
+    	return $output;
+    }
+ 
 }

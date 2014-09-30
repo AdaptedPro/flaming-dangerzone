@@ -14,9 +14,8 @@ class RouteTable
 	
 	public function get_routes_by_user_id($id)
 	{
-		$resultSet = $this->tableGateway->select();
-		//$resultSet = $this->tableGateway->select(array('id' => $id));
-		return $resultSet;
+		$resultSet = $this->tableGateway->select(array('user_id' => $id));
+		return $resultSet;	
 	}	
 
 	public function fetchAll()

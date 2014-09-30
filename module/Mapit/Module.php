@@ -32,21 +32,6 @@ class Module
     public function getServiceConfig()
     {
     	return array(
-    			/*
-    			'factories' => array(
-    					'Mapit\Model\MapitTable' =>  function($sm) {
-    						$tableGateway = $sm->get('MapitTableGateway');
-    						$table = new MapitTable($tableGateway);
-    						return $table;
-    					},
-    					'MapitTableGateway' => function ($sm) {
-    						$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
-    						$resultSetPrototype = new ResultSet();
-    						$resultSetPrototype->setArrayObjectPrototype(new Mapit());
-    						return new TableGateway('project', $dbAdapter, null, $resultSetPrototype);
-    					},
-    			),
-    			*/
     			'factories' => array(
     					'Route\Model\RouteTable' =>  function($sm) {
     						$tableGateway = $sm->get('RouteTableGateway');
