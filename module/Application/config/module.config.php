@@ -76,12 +76,12 @@ return array(
 					array(
 							'label' => 'Map-it',
 							'route' => 'mapit',
-					),					
-					/*
+					),
 					array(
-							'label' => 'About',
-							//'route' => 'about',
-					),				
+							'label' => 'System Rover',
+							'route' => 'rover',
+					),
+					/*
 					array(
 							'label' => 'Blog',
 							'route' => 'blog',

@@ -14,9 +14,20 @@ class RoverController extends AbstractActionController
     public function indexAction()
     {
        return new ViewModel(array(
-             //'rovers' => $this->getRoverTable()->fetchAll(),
+             'python_network_data' => $this->get_python_network_data()
          ));
     }
+    
+    private function get_python_network_data()
+    {
+    	//ob_start();
+    	#Remember to use chmod +x myscript.py
+    	$command = escapeshellcmd("/Applications/MAMP/htdocs/flaming-dangerzone/module/Rover/view/rover/rover/network_info.py");
+    	$output = shell_exec($command);
+    	//ob_end_clean();
+    	return $output;    	
+    }
+    
     
     private function cronTest()
     {
@@ -24,18 +35,6 @@ class RoverController extends AbstractActionController
     	$crontab = new Ssh2_crontab_manager('localhost','','','');
     	$crontab->append_cronjob('30 15 * * 1 home/path/to/command/the_command.sh >/dev/null 2>&1');
     }
-            
-    public function getRoverTable()
-    {
-    	/*
-    	if (!$this->roverTable) {
-    		$sm = $this->getServiceLocator();
-    		$this->roverTable = $sm->get('Rover\Model\RoverTable');
-    	}
-    	*/
-    	return $this->roverTable;
-    }
-
     
     /*
      * MAKE AJAX FUNCTIONS RETURN AS JSON OR XML!
