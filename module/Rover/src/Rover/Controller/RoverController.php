@@ -14,18 +14,29 @@ class RoverController extends AbstractActionController
     public function indexAction()
     {
        return new ViewModel(array(
-             'python_network_data' => $this->get_python_network_data()
+             'python_network_data' => $this->get_python_network_data(),
+       		'python_scrape_data' => $this->get_scrape_data()
          ));
     }
     
     private function get_python_network_data()
     {
-    	//ob_start();
     	#Remember to use chmod +x myscript.py
-    	$command = escapeshellcmd("/Applications/MAMP/htdocs/flaming-dangerzone/module/Rover/view/rover/rover/network_info.py");
-    	$output = shell_exec($command);
+    	$output;
+    	//ob_start();
+    	//$command = escapeshellcmd("/Applications/MAMP/htdocs/flaming-dangerzone/module/Rover/view/rover/rover/network_info.py");
+    	//$output = shell_exec($command);
     	//ob_end_clean();
     	return $output;    	
+    }
+    
+    private function get_scrape_data()
+    {
+    	ob_start();
+    	$command = escapeshellcmd("/wamp/flaming-dangerzone/module/Rover/view/rover/rover/scraper.py");
+    	$output = shell_exec($command); 
+    	ob_end_clean();
+    	return $output;    	   	
     }
     
     
