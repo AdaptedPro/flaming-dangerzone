@@ -74,27 +74,31 @@ return array(
 	'navigation' => array(
 			'default' => array(
 					array(
+							'label' => 'Dashboard',
+							'route' => 'home',
+					),					
+					array(
+							'label' => 'My Evernotes',
+							'route' => 'notes',
+					),
+					array(
 							'label' => 'Map-it',
 							'route' => 'mapit',
 					),
+					/*
+					array(
+							'label' => 'Good Health',
+							'route' => 'home',
+					),
+					array(
+							'label' => 'My Dropbox',
+							'route' => 'home',
+					),
+					*/
 					array(
 							'label' => 'System Rover',
 							'route' => 'rover',
 					),
-					/*
-					array(
-							'label' => 'Blog',
-							'route' => 'blog',
-					),
-					array(
-							'label' => 'Privacy',
-							'route' => 'privacy',
-					),
-					array(
-							'label' => 'Terms',
-							'route' => 'terms',
-					),
-					*/
 					/*																			
 					array(
 							'label' => 'Project',

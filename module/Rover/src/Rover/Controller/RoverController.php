@@ -22,7 +22,7 @@ class RoverController extends AbstractActionController
     private function get_python_network_data()
     {
     	#Remember to use chmod +x myscript.py
-    	$output;
+    	$output = "";
     	//ob_start();
     	//$command = escapeshellcmd("/Applications/MAMP/htdocs/flaming-dangerzone/module/Rover/view/rover/rover/network_info.py");
     	//$output = shell_exec($command);
@@ -32,19 +32,19 @@ class RoverController extends AbstractActionController
     
     private function get_scrape_data()
     {
-    	ob_start();
-    	$command = escapeshellcmd("/wamp/flaming-dangerzone/module/Rover/view/rover/rover/scraper.py");
-    	$output = shell_exec($command); 
-    	ob_end_clean();
-    	return $output;    	   	
+    	#ob_start();
+    	#$command = escapeshellcmd("/wamp/flaming-dangerzone/module/Rover/view/rover/rover/scraper.py");
+    	#$output = shell_exec($command); 
+    	#ob_end_clean();
+    	#return $output;    	   	
     }
     
     
     private function cronTest()
     {
     	//$crontab = new Ssh2_crontab_manager(address, port, username, password );
-    	$crontab = new Ssh2_crontab_manager('localhost','','','');
-    	$crontab->append_cronjob('30 15 * * 1 home/path/to/command/the_command.sh >/dev/null 2>&1');
+    	#$crontab = new Ssh2_crontab_manager('localhost','','','');
+    	#$crontab->append_cronjob('30 15 * * 1 home/path/to/command/the_command.sh >/dev/null 2>&1');
     }
     
     /*

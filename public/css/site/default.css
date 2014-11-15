@@ -1,0 +1,34 @@
+@CHARSET "UTF-8";
+
+.red { color:#F00; }
+
+body.splash {
+	/*
+    background: #000000 url('../../img/bg_dark.gif') no-repeat bottom left;
+    background-size: cover;
+    background-position:center top;
+    */
+}
+
+body.splash #footer {
+	color:#E0E0E0;
+}
+
+.masthead-brand img { }
+.nav a {
+	color:#000;
+}
+
+.navbar-brand img {
+	height:20px;
+}
+
+#login_modal .modal-dialog { max-width:400px; }
+#login_form .modal-body { padding-bottom:5px; }
+#login_form .modal-footer { margin-top:5px; }
+
+.clr {
+	clear:both;
+	height:0px;
+	line-height:0px;
+}
