@@ -78,30 +78,27 @@ return array(
 							'route' => 'home',
 					),					
 					array(
-							'label' => 'My Evernotes',
+							'label' => 'Forevernote',
 							'route' => 'notes',
 					),
 					array(
 							'label' => 'Map-it',
 							'route' => 'mapit',
 					),
-					/*
 					array(
-							'label' => 'Good Health',
-							'route' => 'home',
+							'label' => 'Play Beats',
+							'route' => 'beats',
 					),
 					array(
-							'label' => 'My Dropbox',
-							'route' => 'home',
-					),
-					*/
+							'label' => 'Cirrus Era',
+							'route' => 'cirrusera',
+					),					
 					array(
 							'label' => 'System Rover',
 							'route' => 'rover',
-					),
-					/*																			
+					),																		
 					array(
-							'label' => 'Project',
+							'label' => 'Projects',
 							'route' => 'project',
 							'pages' => array(
 									array(
@@ -121,7 +118,6 @@ return array(
 									),
 							),
 					),
-					*/
 			),
 	),		
 		

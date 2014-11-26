@@ -20,7 +20,14 @@ body.splash #footer {
 }
 
 .navbar-brand img {
-	height:20px;
+	height:30px;
+}
+
+.logo {
+	width:150px;
+	background-image: url('../../img/apro-title.png');
+	background-repeat:no-repeat;
+	margin:10px 0 0 10px;
 }
 
 #login_modal .modal-dialog { max-width:400px; }

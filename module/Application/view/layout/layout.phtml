@@ -15,7 +15,7 @@ $li_option =  ( isset($_SESSION['auth_user']) && isset($_SESSION['auth_user']['e
         (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false))
             header('X-UA-Compatible: IE=edge,chrome=1'); ?>             
         <?php echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0') . " \n "; ?>
-       <?php echo $this->headTitle($this->translate('Utatis'))->setSeparator(' - ')->setAutoEscape(false) . " \n "; ?>
+       <?php echo $this->headTitle($this->translate('AdaptedPro'))->setSeparator(' - ')->setAutoEscape(false) . " \n "; ?>
        <?php $curr_css = isset($_SESSION['auth_user'])?'css/bootstrap/dashboard.css':'/css/bootstrap/cover.css'; ?>
 <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico')) 
                         ->prependStylesheet($this->basePath() . $curr_css)
@@ -44,11 +44,12 @@ $li_option =  ( isset($_SESSION['auth_user']) && isset($_SESSION['auth_user']['e
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                       </button>
-                      <a class="navbar-brand" href="/"><img src="<?php echo $this->basePath(); ?>/img/logo-utatis.png" alt="Utatis" /></a>
+                      <a class="navbar-brand logo" href="/" title=""></a>
                 </div>
                 <div class="navbar-collapse collapse">
                       <ul class="nav navbar-nav navbar-right">
                         <li><a href="#"><span class="glyphicon glyphicon-cog"></span></a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-inbox"></span></a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span></a>
                             <ul class="dropdown-menu">
@@ -140,7 +141,7 @@ $li_option =  ( isset($_SESSION['auth_user']) && isset($_SESSION['auth_user']['e
         </div>
         <div id="footer">
             <div class="container">
-                <p class="text-muted"><small>&copy; <?php echo date('Y'); ?> Utatis - All Rights Reserved.</small>&nbsp;|&nbsp;<small><a href='#'>About</a></small>&nbsp;|&nbsp;<small><a href='#'>Privacy &amp; Terms</a></small></p>
+                <p class="text-muted"><small>&copy; <?php echo date('Y'); ?> AdaptedPro - All Rights Reserved.</small>&nbsp;|&nbsp;<small><a href='#'>About</a></small>&nbsp;|&nbsp;<small><a href='#'>Privacy &amp; Terms</a></small></p>
             </div>
         </div>
         <div id="login_modal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
