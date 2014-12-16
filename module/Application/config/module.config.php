@@ -86,17 +86,9 @@ return array(
 							'route' => 'mapit',
 					),
 					array(
-							'label' => 'Play Beats',
-							'route' => 'beats',
-					),
-					array(
 							'label' => 'Cirrus Era',
 							'route' => 'cirrusera',
-					),					
-					array(
-							'label' => 'System Rover',
-							'route' => 'rover',
-					),																		
+					),																							
 					array(
 							'label' => 'Projects',
 							'route' => 'project',

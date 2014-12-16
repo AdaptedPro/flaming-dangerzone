@@ -3,3 +3,69 @@
 	height:300px; 
 	margin:0px;
 }
+
+.dash-feed-item {
+    border:1px solid #E9E9E9;
+    max-width:520px;
+    display:block;
+    box-shadow: 0 1px 16px rgba(0,0,0,.1);
+    margin:0 auto 35px auto;
+}
+
+.dash-feed-caption {
+    border-bottom:1px solid #E9E9E9;
+    padding:15px 0 0 0;
+    margin-bottom:15px;
+}
+
+.dash-feed-media {
+    max-width:100%;
+    height:auto;
+ }
+
+.media {
+    font-size:90%;
+    margin:15px;
+}
+
+.pending a { color:silver; }
+.pending a:hover { text-decoration:none; }
+
+.dash-feed-comment .media img {
+    width:32px;
+}
+ 
+.dash-feed-notes {
+     margin:3px 0;
+}
+ 
+.dash-feed-comment-form {
+    margin:0;
+    padding:0;
+}
+
+.dash-feed-comment-form div input[type=text] {
+     width: 100%;
+}
+
+.dash-feed-create {
+    margin:0 15px;
+}
+
+.media-left {
+    display: table-cell;
+    vertical-align: top;
+    padding-right: 10px;
+}
+
+.media-body {
+    display: table-cell;
+    vertical-align: top;
+    width:100%;
+}
+
+.media-right {
+    display: table-cell;
+    vertical-align: top;
+    padding-left: 10px;
+}
