@@ -19,6 +19,15 @@ class RoverController extends AbstractActionController
          ));
     }
     
+    public function ajaxAction()
+    {
+    		$result = new JsonModel(array(
+    				'some_parameter' => 'some value',
+    				'success'=>true,
+    		));
+    		return $result;   
+    }    
+    
     private function get_python_network_data()
     {
     	#Remember to use chmod +x myscript.py

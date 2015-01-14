@@ -13,7 +13,8 @@
         "ext-json": "*",        
         "zendframework/zendframework": "2.2.*",
         "phpmailer/phpmailer": "dev-master",
-        "facebook/php-sdk" : "*"
+        "facebook/php-sdk" : "*",
+        "zendframework/zftool": "dev-master"
 
     },
     "require-dev": {

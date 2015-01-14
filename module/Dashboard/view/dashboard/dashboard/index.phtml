@@ -1,17 +1,21 @@
  <?php
  $windowTitle = $displayname;
  $this->headTitle('Welcome');
-  $this->headLink()->appendStylesheet('/css/dashboard/default.css');
+ $this->headLink()->appendStylesheet('/css/dashboard/default.css');
+ $this->headScript()->appendFile( '/js/site/feed.js', 'text/javascript' );
 //  $this->headScript()->appendFile( '/js/Chart.js/Chart.js', 'text/javascript' );
 //  $this->headScript()->appendFile( '/js/dashboard/default.js', 'text/javascript' );
  ?>
+<h2>Presentations</h2>
+
 
                         <div class="row">
                                
+                            <ul class="dash-feed-itemlist">   
                             <?php #foreach ($dashFeedItems as $key => $val) { ?>                            
-                                <div class="dash-feed-item">
+                                <li class="dash-feed-item">
                                     <div class="dash-feed-media">
-                                        <img src="http://static2.businessinsider.com/image/5238847e69bedd2209d2823d/the-entire-state-of-the-us-economy-the-fed-and-the-stock-market-in-one-disturbing-paragraph.jpg" class="img-responsive" alt="Responsive image" />
+                                        <img src="img/screen_capture/frontpage_adaptedpro.png" class="img-responsive" alt="Responsive image" />
                                     </div>
                                     
                                     <div class="dash-feed-comment">
@@ -75,9 +79,9 @@
                                            </form> 
                                        </div>
                                    </div>
-                                </div>                            
+                                </li>                            
                             
-                                <div class="dash-feed-item">
+                                <li class="dash-feed-item">
                                     <div class="dash-feed-media">
                                         <img src="http://fc09.deviantart.net/fs71/i/2013/141/e/3/palouse_waterfall_stock_by_leeorr_stock-d663du8.jpg" class="img-responsive" alt="Responsive image" />
                                     </div>
@@ -143,8 +147,145 @@
                                            </form> 
                                        </div>
                                    </div>
-                                </div>
+                                </li>                            
+                            
+                                <li class="dash-feed-item">
+                                    <div class="dash-feed-media">
+                                        <img src="http://static2.businessinsider.com/image/5238847e69bedd2209d2823d/the-entire-state-of-the-us-economy-the-fed-and-the-stock-market-in-one-disturbing-paragraph.jpg" class="img-responsive" alt="Responsive image" />
+                                    </div>
+                                    
+                                    <div class="dash-feed-comment">
+                                       <div class="dash-feed-caption">
+                                            <div class="media">
+                                                <a class="media-left" href="#"><img src="/img/download.svg" alt="..."></a>
+                                                <div class="media-body">
+                                                    <h4 class="media-heading">Media heading</h4>
+                                                    Main capition
+                                                </div>
+                                                <div aria-label="Dashoard actions" class="media-right dash-feed-actions">
+			                                        <div class="btn-group">
+			                                            <button type="button" class="btn btn-default" aria-label="Add to favorites">
+			                                                <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+			                                            </button>
+			                                        </div>
+			                                    </div>
+                                            </div>                                           
+                                       </div>
+                                        
+                                        <div class="dash-feed-notes">
+                                            <div class="media pending">
+                                                <a class="media-left" href="#"></a>
+                                                <div class="media-body">
+                                                    <h5 class="media-heading"><a href="#">5 more comments</a></h5>
+                                                </div>                                                
+                                            </div>
+                                       
+                                            <div class="media">
+                                                <a class="media-left" href="#"><img src="/img/download.svg" alt="..."></a>
+                                                <div class="media-body">
+                                                    <h5 class="media-heading">Comment/note1</h5>
+                                                    dasdsad asdasdasd asdasdasd asdasdasdasdas
+                                                </div>
+                                            </div>    
+                                            
+                                            <div class="media">
+                                                <a class="media-left" href="#"><img src="/img/download.svg" alt="..."></a>
+                                                <div class="media-body">
+                                                    <h5 class="media-heading">Comment/note2</h5>
+                                                    dasdsad asdasdasd asdasdasd asdasdasdasdas
+                                                </div>
+                                            </div>    
+                                            
+                                            <div class="media">
+                                                <a class="media-left" href="#"><img src="/img/download.svg" alt="..."></a>
+                                                <div class="media-body">
+                                                    <h5 class="media-heading">Comment/note3</h5>
+                                                    dasdsad asdasdasd asdasdasd asdasdasdasdas
+                                                </div>
+                                            </div>                                                                                                                               
+                                       
+                                        </div>
+                                        
+                                       <div class="dash-feed-create">                                       
+                                           <form class="dash-feed-comment-form" data-id="01" role="form">
+                                                <div class="form-group">
+                                                    <label for="inputPassword2" class="sr-only">Password</label>
+                                                    <input type="text" class="form-control" data-id="01" placeholder="Write a comment...">
+                                                </div>
+                                           </form> 
+                                       </div>
+                                   </div>
+                                </li>                            
+                            
+                                <li class="dash-feed-item">
+                                    <div class="dash-feed-media">
+                                        <img src="http://fc09.deviantart.net/fs71/i/2013/141/e/3/palouse_waterfall_stock_by_leeorr_stock-d663du8.jpg" class="img-responsive" alt="Responsive image" />
+                                    </div>
+                                    
+                                    <div class="dash-feed-comment">
+                                       <div class="dash-feed-caption">
+                                            <div class="media">
+                                                <a class="media-left" href="#"><img src="/img/download.svg" alt="..."></a>
+                                                <div class="media-body">
+                                                    <h4 class="media-heading">Media heading</h4>
+                                                    Main capition
+                                                </div>
+                                                <div aria-label="Dashoard actions" class="media-right dash-feed-actions">
+			                                        <div class="btn-group">
+			                                            <button type="button" class="btn btn-default" aria-label="Add to favorites">
+			                                                <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+			                                            </button>
+			                                        </div>
+			                                    </div>
+                                            </div>                                           
+                                       </div>
+                                        
+                                        <div class="dash-feed-notes">
+                                            <div class="media pending">
+                                                <a class="media-left" href="#"></a>
+                                                <div class="media-body">
+                                                    <h5 class="media-heading"><a href="#">5 more comments</a></h5>
+                                                </div>                                                
+                                            </div>
+                                       
+                                            <div class="media">
+                                                <a class="media-left" href="#"><img src="/img/download.svg" alt="..."></a>
+                                                <div class="media-body">
+                                                    <h5 class="media-heading">Comment/note1</h5>
+                                                    dasdsad asdasdasd asdasdasd asdasdasdasdas
+                                                </div>
+                                            </div>    
+                                            
+                                            <div class="media">
+                                                <a class="media-left" href="#"><img src="/img/download.svg" alt="..."></a>
+                                                <div class="media-body">
+                                                    <h5 class="media-heading">Comment/note2</h5>
+                                                    dasdsad asdasdasd asdasdasd asdasdasdasdas
+                                                </div>
+                                            </div>    
+                                            
+                                            <div class="media">
+                                                <a class="media-left" href="#"><img src="/img/download.svg" alt="..."></a>
+                                                <div class="media-body">
+                                                    <h5 class="media-heading">Comment/note3</h5>
+                                                    dasdsad asdasdasd asdasdasd asdasdasdasdas
+                                                </div>
+                                            </div>                                                                                                                               
+                                       
+                                        </div>
+                                        
+                                       <div class="dash-feed-create">                                       
+                                           <form class="dash-feed-comment-form" data-id="01" role="form">
+                                                <div class="form-group">
+                                                    <label for="inputPassword2" class="sr-only">Password</label>
+                                                    <input type="text" class="form-control" data-id="01" placeholder="Write a comment...">
+                                                </div>
+                                           </form> 
+                                       </div>
+                                   </div>
+                                </li>
                             
                             <?php #} ?>
+                            </ul>
 
                         </div>

@@ -4,12 +4,25 @@
 	margin:0px;
 }
 
+.dash-feed-itemlist {
+	list-style-type: none;
+	margin:0;
+	padding:0;
+}
+
+.dash-feed-itemlist li {
+	list-style-type:none;
+	vertical-align:top;	
+}
+
 .dash-feed-item {
     border:1px solid #E9E9E9;
-    max-width:520px;
-    display:block;
+    max-width:480px;
+    display:inline-block;
     box-shadow: 0 1px 16px rgba(0,0,0,.1);
-    margin:0 auto 35px auto;
+    margin:0 2em 2em 0; 
+    padding-right: 0!important;
+    padding-left: 0!important;
 }
 
 .dash-feed-caption {

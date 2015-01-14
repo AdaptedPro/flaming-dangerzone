@@ -16,7 +16,7 @@ $li_option =  ( isset($_SESSION['auth_user']) && isset($_SESSION['auth_user']['e
             header('X-UA-Compatible: IE=edge,chrome=1'); ?>             
         <?php echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0') . " \n "; ?>
        <?php echo $this->headTitle($this->translate('AdaptedPro'))->setSeparator(' - ')->setAutoEscape(false) . " \n "; ?>
-       <?php $curr_css = isset($_SESSION['auth_user'])?'css/bootstrap/dashboard.css':'/css/bootstrap/cover.css'; ?>
+       <?php $curr_css = isset($_SESSION['auth_user'])?'/css/bootstrap/dashboard.css':'/css/bootstrap/cover.css'; ?>
 <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico')) 
                         ->prependStylesheet($this->basePath() . $curr_css)
                         ->prependStylesheet($this->basePath() . '/css/site/default.css')
