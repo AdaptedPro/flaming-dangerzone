@@ -294,7 +294,33 @@ class UserController extends AbstractActionController
   		$view = new ViewModel();
    		$view->setTerminal(true);
    		return $this->redirect()->toRoute('home');	
-    }   
+    } 
+
+    
+    
+    
+    
+    //
+    
+    public function iosloginAction()
+    {
+    	$result  = "";
+    	$request = $this->getRequest();
+    	if ($request->isXmlHttpRequest()){
+    		$data = $request->getPost();
+    		$result = new JsonModel(array( 'success'=>true, 'data' => 'Hello World' ));
+    	} else {
+    		$result = new JsonModel(array( 'success'=>false, ));
+    	}
+    	return $result;
+    }    
+    
+    //
+    
+    
+    
+    
+    
     
     public function getUserTable()
     {
