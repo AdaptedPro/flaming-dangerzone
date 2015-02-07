@@ -78,6 +78,10 @@ return array(
 							'route' => 'home',
 					),					
 					array(
+							'label' => 'Springer Notes',
+							'route' => 'springer',
+					),					
+					array(
 							'label' => 'Forevernote',
 							'route' => 'notes',
 					),

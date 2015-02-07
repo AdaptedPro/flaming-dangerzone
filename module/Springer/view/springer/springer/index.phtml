@@ -1,0 +1,46 @@
+<?php require_once('snippets/imageClass.php');?>
+<?php require_once('snippets/novelClass.php');?>
+<?php require_once('snippets/functions.php');?>
+<?php require_once('snippets/header.php'); ?>
+
+    <div data-role="page" data-dom-cache="false" id="home" title="<?php echo $title; ?>" data-theme="a">
+   
+        <div data-role="header" data-position="fixed">
+            <h1><?php echo $title; ?></h1>
+            <a href="/springer/about" data-icon="info" data-rel="dialog" data-transition="pop" class="ui-btn-right">About</a> 
+        </div><!-- /header -->
+    
+        <div id="h-content" data-role="content">
+        
+        <div id="splash"><a href="https://twitter.com/#!/springerlink" rel="external" target="_blank">
+        	<div id="klout"><?php #echo $klout; ?></div>
+        	<img src="/img/springer/splash.png" alt="Springer Novel Trends" class="noborder" /></a>
+            <br class="clearfloat" />	
+        </div>
+        <div class="ui-body ui-body-b">
+            <form action="/springer/results" method="post">    
+                              
+                <div id="adv-switch" class="form_container" data-role="fieldcontain">
+                    <label class="ui-input-text" for="adv">Advanced Search:</label>
+                    <select name="adv" id="adv" data-role="slider" onchange="search_state(this.value);"  data-mini="true">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+                
+                <div id="k-word" class="form_container" data-role="fieldcontain">
+                	<label class="ui-input-text" for="k">Key term:</label>
+                    <input type="search" name="k" id="search-basic" placeholder="Search Springer" />
+                    <?php echo $errorMsg;?>
+                </div>
+  
+                <div data-role="fieldcontain">    
+                	<input type="submit" name="s" value="Search" />
+                </div>
+                  
+            </form>
+         </div>              
+            
+        </div><!-- /content -->
+        
+<?php require_once('snippets/footer.php'); ?>  

@@ -1,0 +1,22 @@
+<?php require_once('snippets/header.php'); ?>
+
+    <div data-role="page" id="results" title="<?php echo $title; ?>" data-theme="a">
+    	
+        <div data-role="header" data-position="fixed">
+        	<a href="/springer" data-role="button" data-icon="home" data-transition="fade" data-iconpos="notext" data-ajax="false">Home</a>
+            <h1><?php echo $title; ?></h1>
+            <a href="/springer/trends" data-icon="gear" data-transition="slide" class="ui-btn-right" data-ajax="false">Trends</a>        
+        </div><!-- /header -->
+    
+        <div id="content" data-role="content">	
+              <?php 
+				if ($display_results == true) {					
+					echo $the_data;
+				} 
+				?>
+
+        </div><!-- /content -->
+<script>
+$('#s-results').listview('refresh');
+</script>
+<?php require_once('snippets/footer.php'); ?>  
