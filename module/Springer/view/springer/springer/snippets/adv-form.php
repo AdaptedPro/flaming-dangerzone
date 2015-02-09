@@ -20,6 +20,5 @@
                 <div id="k-word" class="form_container" data-role="fieldcontain">
                 	<label class="ui-input-text" for="k2">Key term:</label>
                     <input type="search" name="k2" id="search-basic" placeholder="Search Springer" />
-                </div>
-                <input type="hidden" name="adv" value="1" />                
+                </div>                
              </div>

@@ -5,7 +5,8 @@ var availableYears;
 var no_search;
 
 function get_more() {    
-    $("#loading").append("<img src='images/loader.gif' alt='Loading.' />");
+    $("#loading").append("<img src='/img/springer/loader.gif' alt='Loading.' />");
+    $("#g-btn").addClass('not-active');
     $.ajax({
         type: "GET",
         url: "/springer/ajax/2"
@@ -14,7 +15,8 @@ function get_more() {
                 var msg = m['data'];
                 $("#content ul").append(msg);
                 $('#content ul').listview('refresh');
-                document.getElementById("loading").innerHTML = "";                
+                document.getElementById("loading").innerHTML = "";
+                $("#g-btn").removeClass('not-active');                
             }
         });
 }
@@ -23,10 +25,10 @@ function goto_top() {
     $.mobile.silentScroll(0);
 }
 
-function search_state(_x) {
-    if (_x == 0) {
+function search_state(x) {
+    if (x == 0) {
         //Remove advanced form
-         $("#adv-form").remove();
+         $('#adv-switch-holder').html('');
          $('#k-word').show().trigger( 'updatelayout' );
     } else { 
         $('#k-word').hide().trigger( 'updatelayout' );
@@ -37,50 +39,46 @@ function search_state(_x) {
             url: "/springer/ajax/1",
             dataType: 'json',
             }).done(function( m ) {
-                if (m['success']==true) {
-                    var msg = m['data'];
-                } else {
-                    var msg = '';
-                }
-                
-            $('#adv-switch').after(msg);
-            $('#h-content').trigger('create');
+            	var msg = m['success'] == true ? m['data'] : '';
+                $('#adv-switch-holder').html(msg);
+                $('#h-content').trigger('create');
             
-            $("#country").autocomplete({
-                target: $('#suggestions-1'),
-                source: availableCountries,
-                callback: function(e) {
-                    var $a = $(e.currentTarget);
-                    $('#country').val($a.text());
-                    $("#country").autocomplete('clear');
-                },
-                link: 'results.php?n=',
-                minLength: 1
-            });
-            
-            $("#subject").autocomplete({
-                target: $('#suggestions-2'),
-                source: availableSubjects,
-                callback: function(e) {
-                    var $a = $(e.currentTarget);
-                    $('#subject').val($a.text());
-                    $("#subject").autocomplete('clear');
-                },
-                link: 'results.php?n=',
-                minLength: 1
-            });  
-      
-          $("#year").autocomplete({
-                target: $('#suggestions-3'),
-                source: availableYears,
-                callback: function(e) {
-                    var $a = $(e.currentTarget);
-                    $('#year').val($a.text());
-                    $("#year").autocomplete('clear');
-                },
-                link: 'results.php?n=',
-                minLength: 1
-            });
+                //Build auto complete helpers
+	            $("#country").autocomplete({
+	                target: $('#suggestions-1'),
+	                source: availableCountries,
+	                callback: function(e) {
+	                    var $a = $(e.currentTarget);
+	                    $('#country').val($a.text());
+	                    $("#country").autocomplete('clear');
+	                },
+	                link: 'results.php?n=',
+	                minLength: 1
+	            });
+	            
+	            $("#subject").autocomplete({
+	                target: $('#suggestions-2'),
+	                source: availableSubjects,
+	                callback: function(e) {
+	                    var $a = $(e.currentTarget);
+	                    $('#subject').val($a.text());
+	                    $("#subject").autocomplete('clear');
+	                },
+	                link: 'results.php?n=',
+	                minLength: 1
+	            });
+	            
+	            $("#year").autocomplete({
+	                target: $('#suggestions-3'),
+	                source: availableYears,
+	                callback: function(e) {
+	                    var $a = $(e.currentTarget);
+	                    $('#year').val($a.text());
+	                    $("#year").autocomplete('clear');
+	                },
+	                link: 'results.php?n=',
+	                minLength: 1
+	            });
 
         });
     }

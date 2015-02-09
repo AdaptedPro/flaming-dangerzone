@@ -76,15 +76,16 @@ return array(
 					array(
 							'label' => 'Dashboard',
 							'route' => 'home',
-					),					
+					),
+					array(
+							'uri' => 'http://www.pik2ascii.appspot.com',
+							'label' => 'PIK-2-ASCII',
+							'class' => 'external',
+					),										
 					array(
 							'label' => 'Springer Notes',
 							'route' => 'springer',
 					),					
-					array(
-							'label' => 'Forevernote',
-							'route' => 'notes',
-					),
 					array(
 							'label' => 'Map-it',
 							'route' => 'mapit',

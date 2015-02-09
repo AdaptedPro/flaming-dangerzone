@@ -1,20 +1,9 @@
 @charset "UTF-8";
 /* CSS Document */
 
-body {
-	/*
-	background-image:url(../images/bg_tile.jpg);
-	background-repeat:repeat-x;
-	*/
-}
-
-#home {
-	/*
-	background-image:url(../images/bg_logo.jpg);
-	background-repeat:no-repeat;
-	background-position:middle;
-	background-color:#002143!important;
-	*/
+.not-active {
+   pointer-events: none;
+   cursor: default;
 }
 
 #h-content { max-width:420px; margin:0 auto; }

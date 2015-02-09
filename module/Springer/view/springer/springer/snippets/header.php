@@ -11,8 +11,8 @@
         <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
         <script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>    
         <script src="/js/springer/jqm-autoComplete-1.3.js"></script>
-        <?php if ($is_trends == true) { ?><script type="text/javascript" src="/js/springer/amcharts.js"></script><?php } ?>
         <?php if ($is_trends == true) { ?>
+        <script type="text/javascript" src="/js/springer/amcharts.js"></script>
         <script type="text/javascript">    
                 var chart;
                 var legend;
